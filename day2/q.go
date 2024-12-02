@@ -14,6 +14,10 @@ const (
 	maxDiff = 3
 )
 
+func isDiffValid(diff int) bool {
+	return !(diff < -maxDiff || diff > maxDiff || (diff > -minDiff && diff < minDiff))
+}
+
 func isValid(report []int) bool {
 	if len(report) < 2 {
 		return true
@@ -21,15 +25,14 @@ func isValid(report []int) bool {
 
 	prevDiff := report[1] - report[0]
 
-	if prevDiff < -maxDiff || prevDiff > maxDiff || (prevDiff > -minDiff && prevDiff < minDiff) {
+	if !isDiffValid(prevDiff) {
 		return false
 	}
 
 	for i := 1; i < len(report)-1; i++ {
 		currDiff := report[i+1] - report[i]
-		if currDiff < -maxDiff || currDiff > maxDiff || 
-		(currDiff > -minDiff && currDiff < minDiff) || 
-		(currDiff > 0) != (prevDiff > 0) {
+
+		if !isDiffValid(currDiff) || (currDiff > 0) != (prevDiff > 0) {
 			return false
 		}
 
@@ -55,15 +58,34 @@ func solve1(reports [][]int) {
 }
 
 func isValidWithOneRemoved(report []int) bool {
-	for i := 0; i < len(report); i++ {
-		slice := make([]int, len(report))
-		copy(slice, report)
-		if isValid(append(slice[:i], slice[i+1:]...)) {
-			return true
+	if len(report) < 2 {
+		return true
+	}
+
+	removalUsed := false
+	prevDiff := 0
+
+	for i := 0; i < len(report)-1; i++ {
+		currDiff := report[i+1] - report[i]
+
+		if !isDiffValid(currDiff) || (i > 0 && (currDiff > 0) != (prevDiff > 0)) {
+			if removalUsed {
+				return false
+			}
+
+			removalUsed = true
+
+			if i > 0 && isDiffValid(report[i+1]-report[i-1]) && ((report[i+1]-report[i-1] > 0) == (prevDiff > 0)) {
+				prevDiff = report[i+1] - report[i-1]
+			} else {
+				prevDiff = currDiff
+			}
+		} else {
+			prevDiff = currDiff
 		}
 	}
 
-	return false
+	return true
 }
 
 func solve2(reports [][]int) {
