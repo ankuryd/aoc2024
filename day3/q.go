@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"log"
-	"math"
 	"os"
 	"regexp"
 	"strconv"
@@ -12,10 +11,13 @@ import (
 )
 
 var (
-	re = regexp.MustCompile(`mul\((\d+),(\d+)\)`)
+	re = regexp.MustCompile(`mul\((\d+),(\d+)\)`) // mul(x,y)
 
-	do   = regexp.MustCompile(`do\(\)`)
-	dont = regexp.MustCompile(`don\'t\(\)`)
+	nre = regexp.MustCompile(`mul\((\d+),(\d+)\)|don't\(\).*?do\(\)`) // mul(x,y)|don't()...do()
+)
+
+const (
+	DONT = "don't"
 )
 
 func solve1(input string) {
@@ -43,70 +45,16 @@ func solve1(input string) {
 	fmt.Println(result)
 }
 
-func findValidValues(pos, neg, vals []int) []int {
-	validValues := make([]int, 0)
-	i, j, k := 0, 0, 0
-
-	for i < len(pos) {
-		for j < len(neg) && neg[j] < pos[i] {
-			j++
-		}
-
-		for k < len(vals) && vals[k] < pos[i] {
-			k++
-		}
-
-		for k < len(vals) && vals[k] >= pos[i] && vals[k] < neg[j] {
-			validValues = append(validValues, vals[k])
-			k++
-		}
-
-		for i < len(pos) && pos[i] < neg[j] {
-			i++
-		}
-	}
-
-	return validValues
-}
-
 func solve2(input string) {
-	doIndices := do.FindAllStringIndex(input, -1)
-	dos := make([]int, len(doIndices))
-	for j, index := range doIndices {
-		dos[j] = index[0]
-	}
-	dos = append([]int{0}, dos...)
-
-	dontIndices := dont.FindAllStringIndex(input, -1)
-	donts := make([]int, len(dontIndices))
-	for j, index := range dontIndices {
-		donts[j] = index[0]
-	}
-	donts = append(donts, math.MaxInt)
-
-	mulIndices := re.FindAllStringIndex(input, -1)
-	muls := make([]int, len(mulIndices))
-	for j, index := range mulIndices {
-		muls[j] = index[0]
-	}
-
-	matches := re.FindAllStringSubmatch(input, -1)
+	matches := nre.FindAllStringSubmatch(input, -1)
 	if len(matches) == 0 {
-		fmt.Println("no matches for mul(x,y)")
+		fmt.Println("no matches for mul(x,y)|don't()...do()")
 		return
 	}
 
-	validMuls := make(map[int]struct{})
-	if len(donts) != 0 {
-		for _, v := range findValidValues(dos, donts, muls) {
-			validMuls[v] = struct{}{}
-		}
-	}
-
 	result := 0
-	for i, match := range matches {
-		mulIndex := muls[i]
-		if _, ok := validMuls[mulIndex]; !ok {
+	for _, match := range matches {
+		if strings.HasPrefix(match[0], DONT) {
 			continue
 		}
 
