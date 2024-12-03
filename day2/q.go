@@ -1,4 +1,4 @@
-package main
+package day2
 
 import (
 	"bufio"
@@ -31,7 +31,6 @@ func isValid(report []int) bool {
 
 	for i := 1; i < len(report)-1; i++ {
 		currDiff := report[i+1] - report[i]
-
 		if !isDiffValid(currDiff) || (currDiff > 0) != (prevDiff > 0) {
 			return false
 		}
@@ -67,7 +66,6 @@ func isValidWithOneRemoved(report []int) bool {
 
 	for i := 0; i < len(report)-1; i++ {
 		currDiff := report[i+1] - report[i]
-
 		if !isDiffValid(currDiff) || (i > 0 && (currDiff > 0) != (prevDiff > 0)) {
 			if removalUsed {
 				return false
@@ -103,8 +101,8 @@ func solve2(reports [][]int) {
 	fmt.Println(result)
 }
 
-func main() {
-	const filename = "input.txt"
+func Run() {
+	const filename = "day2/input.txt"
 
 	file, err := os.Open(filename)
 	if err != nil {
@@ -112,7 +110,7 @@ func main() {
 	}
 	defer file.Close()
 
-	var reports [][]int
+	reports := make([][]int, 0)
 	lineNumber := 1
 
 	scanner := bufio.NewScanner(file)
@@ -130,6 +128,7 @@ func main() {
 			if err != nil {
 				log.Fatalf("Error converting '%s' to integer on line %d: %v", field, lineNumber, err)
 			}
+
 			report = append(report, num)
 		}
 
@@ -141,6 +140,11 @@ func main() {
 		log.Fatalf("Error reading file '%s': %v", filename, err)
 	}
 
+	fmt.Println("Question 1 output:")
 	solve1(reports)
+
+	fmt.Println("--------------------------------")
+
+	fmt.Println("Question 2 output:")
 	solve2(reports)
 }

@@ -1,4 +1,4 @@
-package main
+package day1
 
 import (
 	"bufio"
@@ -18,12 +18,13 @@ func solve1(list1, list2 []int) {
 	sort.Ints(list1)
 	sort.Ints(list2)
 
-	var result int
+	result := 0
 	for i := 0; i < len(list1); i++ {
 		diff := list1[i] - list2[i]
 		if diff < 0 {
 			diff = -diff
 		}
+
 		result += diff
 	}
 
@@ -38,7 +39,7 @@ func solve2(list1, list2 []int) {
 
 	var result int
 	for _, num := range list1 {
-		if count, exists := counter[num]; exists {
+		if count, ok := counter[num]; ok {
 			result += num * count
 		}
 	}
@@ -46,8 +47,8 @@ func solve2(list1, list2 []int) {
 	fmt.Println(result)
 }
 
-func main() {
-	const filename = "input.txt"
+func Run() {
+	const filename = "day1/input.txt"
 
 	file, err := os.Open(filename)
 	if err != nil {
@@ -89,6 +90,11 @@ func main() {
 		log.Fatalf("Error reading file '%s': %v", filename, err)
 	}
 
+	fmt.Println("Question 1 output:")
 	solve1(list1, list2)
+
+	fmt.Println("--------------------------------")
+
+	fmt.Println("Question 2 output:")
 	solve2(list1, list2)
 }
