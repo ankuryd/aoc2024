@@ -12,7 +12,6 @@ import (
 
 var (
 	re = regexp.MustCompile(`mul\((\d+),(\d+)\)`) // mul(x,y)
-
 	nre = regexp.MustCompile(`mul\((\d+),(\d+)\)|don't\(\).*?do\(\)`) // mul(x,y)|don't()...do()
 )
 
@@ -74,8 +73,8 @@ func solve2(input string) {
 	fmt.Println(result)
 }
 
-func Run() {
-	const filename = "day3/input.txt"
+func Run(day int) {
+	filename := fmt.Sprintf("day%d/input.txt", day)
 
 	file, err := os.Open(filename)
 	if err != nil {

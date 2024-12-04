@@ -101,8 +101,8 @@ func solve2(reports [][]int) {
 	fmt.Println(result)
 }
 
-func Run() {
-	const filename = "day2/input.txt"
+func Run(day int) {
+	filename := fmt.Sprintf("day%d/input.txt", day)
 
 	file, err := os.Open(filename)
 	if err != nil {

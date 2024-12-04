@@ -10,10 +10,14 @@ import (
 	"github.com/ankuryd/aoc2024/day2"
 	"github.com/ankuryd/aoc2024/day3"
 	"github.com/ankuryd/aoc2024/day4"
+
+	"github.com/ankuryd/aoc2024/util"
+
+	"github.com/joho/godotenv"
 )
 
 var (
-	dayFuncs = map[int]func(){
+	dayFuncs = map[int]func(day int){
 		1: day1.Run,
 		2: day2.Run,
 		3: day3.Run,
@@ -22,6 +26,11 @@ var (
 )
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalf("Error loading .env file: %v", err)
+	}
+
 	args := os.Args[1:]
 	if len(args) == 0 {
 		log.Fatal("Error: No arguments provided. Use -h or --help for more information.")
@@ -51,18 +60,20 @@ Options:
 			log.Fatalf("Error: Day '%d' is out of range (1-25).", day)
 		}
 
-		runFunc, exists := dayFuncs[day]
-		if !exists {
+		runFunc, ok := dayFuncs[day]
+		if !ok {
 			log.Fatalf("Error: Day '%d' not implemented.", day)
 		}
 
-		runFunc()
+		util.ValidateFile(day)
+		runFunc(day)
 	case "-a":
 		for day := 1; day <= 25; day++ {
-			runFunc, exists := dayFuncs[day]
-			if exists {
+			runFunc, ok := dayFuncs[day]
+			if ok {
 				fmt.Printf("Running day %d\n", day)
-				runFunc()
+				util.ValidateFile(day)
+				runFunc(day)
 				fmt.Println("================================")
 			} else {
 				fmt.Printf("Day %d is not implemented. Skipping.\n", day)

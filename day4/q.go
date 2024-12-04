@@ -75,8 +75,8 @@ func solve1(inputs []string) {
 	fmt.Println(result)
 }
 
-func Run() {
-	const filename = "day4/input.txt"
+func Run(day int) {
+	filename := fmt.Sprintf("day%d/input.txt", day)
 
 	file, err := os.Open(filename)
 	if err != nil {

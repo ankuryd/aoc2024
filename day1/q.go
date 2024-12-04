@@ -47,8 +47,8 @@ func solve2(list1, list2 []int) {
 	fmt.Println(result)
 }
 
-func Run() {
-	const filename = "day1/input.txt"
+func Run(day int) {
+	filename := fmt.Sprintf("day%d/input.txt", day)
 
 	file, err := os.Open(filename)
 	if err != nil {
