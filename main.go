@@ -9,6 +9,7 @@ import (
 	"github.com/ankuryd/aoc2024/day1"
 	"github.com/ankuryd/aoc2024/day2"
 	"github.com/ankuryd/aoc2024/day3"
+	"github.com/ankuryd/aoc2024/day4"
 )
 
 var (
@@ -16,6 +17,7 @@ var (
 		1: day1.Run,
 		2: day2.Run,
 		3: day3.Run,
+		4: day4.Run,
 	}
 )
 
