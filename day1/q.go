@@ -6,8 +6,9 @@ import (
 	"log"
 	"os"
 	"sort"
-	"strconv"
 	"strings"
+
+	"aoc2024/util"
 )
 
 func solve1(list1, list2 []int) {
@@ -71,17 +72,13 @@ func Run(day int) {
 			log.Fatalf("Invalid format on line %d: %q", lineNumber, line)
 		}
 
-		firstInt, err := strconv.Atoi(fields[0])
+		intFields, err := util.ConvertToIntSlice(fields)
 		if err != nil {
-			log.Fatalf("Error converting first integer '%s' on line %d: %v", fields[0], lineNumber, err)
+			log.Fatalf("Error converting '%s' to integer on line %d: %v", line, lineNumber, err)
 		}
-		list1 = append(list1, firstInt)
 
-		secondInt, err := strconv.Atoi(fields[1])
-		if err != nil {
-			log.Fatalf("Error converting second integer '%s' on line %d: %v", fields[1], lineNumber, err)
-		}
-		list2 = append(list2, secondInt)
+		list1 = append(list1, intFields[0])
+		list2 = append(list2, intFields[1])
 
 		lineNumber++
 	}

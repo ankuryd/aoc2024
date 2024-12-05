@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 )
 
 // ValidateFile checks if the input file for the given day exists, and if not, it downloads it
@@ -29,10 +30,6 @@ func DownloadInput(day int) {
 	req.Header.Set("Accept", "text/html")
 	req.Header.Set("Cookie", fmt.Sprintf("session=%s", os.Getenv("SESSION_COOKIE")))
 
-	//////////
-	fmt.Println(req.Header)
-	//////////
-
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
@@ -54,4 +51,19 @@ func DownloadInput(day int) {
 	if err != nil {
 		log.Fatalf("Error writing to file: %v", err)
 	}
+}
+
+// ConvertToIntSlice converts a slice of strings to a slice of integers
+func ConvertToIntSlice(input []string) ([]int, error) {
+	result := make([]int, len(input))
+	for i, v := range input {
+		num, err := strconv.Atoi(v)
+		if err != nil {
+			return nil, err
+		}
+
+		result[i] = num
+	}
+
+	return result, nil
 }

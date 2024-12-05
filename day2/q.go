@@ -5,8 +5,9 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strconv"
 	"strings"
+
+	"aoc2024/util"
 )
 
 const (
@@ -121,18 +122,13 @@ func Run(day int) {
 		}
 
 		fields := strings.Fields(line)
-		report := make([]int, 0, len(fields))
 
-		for _, field := range fields {
-			num, err := strconv.Atoi(field)
-			if err != nil {
-				log.Fatalf("Error converting '%s' to integer on line %d: %v", field, lineNumber, err)
-			}
-
-			report = append(report, num)
+		intFields, err := util.ConvertToIntSlice(fields)
+		if err != nil {
+			log.Fatalf("Error converting '%s' to integer on line %d: %v", line, lineNumber, err)
 		}
 
-		reports = append(reports, report)
+		reports = append(reports, intFields)
 		lineNumber++
 	}
 

@@ -6,12 +6,13 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/ankuryd/aoc2024/day1"
-	"github.com/ankuryd/aoc2024/day2"
-	"github.com/ankuryd/aoc2024/day3"
-	"github.com/ankuryd/aoc2024/day4"
+	"aoc2024/day1"
+	"aoc2024/day2"
+	"aoc2024/day3"
+	"aoc2024/day4"
+	"aoc2024/day5"
 
-	"github.com/ankuryd/aoc2024/util"
+	"aoc2024/util"
 
 	"github.com/joho/godotenv"
 )
@@ -22,6 +23,7 @@ var (
 		2: day2.Run,
 		3: day3.Run,
 		4: day4.Run,
+		5: day5.Run,
 	}
 )
 

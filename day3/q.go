@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	re = regexp.MustCompile(`mul\((\d+),(\d+)\)`) // mul(x,y)
+	re  = regexp.MustCompile(`mul\((\d+),(\d+)\)`)                    // mul(x,y)
 	nre = regexp.MustCompile(`mul\((\d+),(\d+)\)|don't\(\).*?do\(\)`) // mul(x,y)|don't()...do()
 )
 
