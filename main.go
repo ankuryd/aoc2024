@@ -11,6 +11,7 @@ import (
 	"aoc2024/day3"
 	"aoc2024/day4"
 	"aoc2024/day5"
+	"aoc2024/day6"
 
 	"aoc2024/util"
 
@@ -24,6 +25,7 @@ var (
 		3: day3.Run,
 		4: day4.Run,
 		5: day5.Run,
+		6: day6.Run,
 	}
 )
 
