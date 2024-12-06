@@ -64,6 +64,11 @@ func isLoop(grid [][]int, startPos Pos, startDir Dir) bool {
 
 		if grid[ni][nj] == 1 {
 			currentDir = Dir{di: currentDir.dj, dj: -currentDir.di}
+			currentState := State{Pos: currentPos, Dir: currentDir}
+			if _, ok := seenStates[currentState]; ok {
+				return true
+			}
+			seenStates[currentState] = struct{}{}
 			continue
 		}
 
@@ -100,7 +105,7 @@ func solve2(grid [][]int, startPos Pos, startDir Dir) {
 
 	result := 0
 	for cell := range visited {
-		if grid[cell.i][cell.j] == 1 {
+		if grid[cell.i][cell.j] == 1 || cell.Pos == startPos {
 			continue
 		}
 
