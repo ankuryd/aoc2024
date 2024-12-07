@@ -20,10 +20,30 @@ type Dir struct {
 	di, dj int
 }
 
+func (d Dir) RotateCW() Dir {
+	return Dir{di: d.dj, dj: -d.di}
+}
+
 type State struct {
 	Pos
 	Dir
 }
+
+const (
+	north = rune('^')
+	east  = rune('>')
+	south = rune('v')
+	west  = rune('<')
+)
+
+var (
+	dirs = map[rune]Dir{
+		north: {di: -1, dj: 0},
+		east:  {di: 0, dj: 1},
+		south: {di: 1, dj: 0},
+		west:  {di: 0, dj: -1},
+	}
+)
 
 func solve1(grid [][]int, startPos Pos, startDir Dir) {
 	visited := make(map[Cell]struct{})
@@ -38,7 +58,7 @@ func solve1(grid [][]int, startPos Pos, startDir Dir) {
 		}
 
 		if grid[ni][nj] == 1 {
-			currentDir = Dir{di: currentDir.dj, dj: -currentDir.di}
+			currentDir = currentDir.RotateCW()
 			continue
 		}
 
@@ -63,7 +83,7 @@ func isLoop(grid [][]int, startPos Pos, startDir Dir) bool {
 		}
 
 		if grid[ni][nj] == 1 {
-			currentDir = Dir{di: currentDir.dj, dj: -currentDir.di}
+			currentDir = currentDir.RotateCW()
 			currentState := State{Pos: currentPos, Dir: currentDir}
 			if _, ok := seenStates[currentState]; ok {
 				return true
@@ -94,7 +114,7 @@ func solve2(grid [][]int, startPos Pos, startDir Dir) {
 		}
 
 		if grid[ni][nj] == 1 {
-			currentDir = Dir{di: currentDir.dj, dj: -currentDir.di}
+			currentDir = currentDir.RotateCW()
 			continue
 		}
 
@@ -105,7 +125,7 @@ func solve2(grid [][]int, startPos Pos, startDir Dir) {
 
 	result := 0
 	for cell := range visited {
-		if grid[cell.i][cell.j] == 1 || cell.Pos == startPos {
+		if cell.Pos == startPos {
 			continue
 		}
 
@@ -129,8 +149,8 @@ func Run(day int) {
 	defer file.Close()
 
 	grid := make([][]int, 0)
-	pos := Pos{-1, -1}
-	dir := Dir{0, 0}
+	startPos := Pos{-1, -1}
+	startDir := Dir{0, 0}
 	lineNumber := 1
 
 	scanner := bufio.NewScanner(file)
@@ -148,18 +168,10 @@ func Run(day int) {
 				row = append(row, 0)
 			case '#':
 				row = append(row, 1)
-			case '^', 'v', '<', '>':
-				pos = Pos{lineNumber - 1, i}
-				switch char {
-				case '^': // North
-					dir.di = -1
-				case 'v': // South
-					dir.di = 1
-				case '<': // West
-					dir.dj = -1
-				case '>': // East
-					dir.dj = 1
-				}
+			case north, south, west, east:
+				row = append(row, 0)
+				startPos = Pos{lineNumber - 1, i}
+				startDir = dirs[char]
 			default:
 				log.Fatalf("Invalid character '%c' on line %d, column %d", char, lineNumber, i)
 			}
@@ -175,10 +187,10 @@ func Run(day int) {
 	}
 
 	fmt.Println("Question 1 output:")
-	solve1(grid, pos, dir)
+	solve1(grid, startPos, startDir)
 
 	fmt.Println("--------------------------------")
 
 	fmt.Println("Question 2 output:")
-	solve2(grid, pos, dir)
+	solve2(grid, startPos, startDir)
 }

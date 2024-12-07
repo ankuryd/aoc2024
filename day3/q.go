@@ -10,13 +10,13 @@ import (
 	"strings"
 )
 
+const (
+	DONT = "don't"
+)
+
 var (
 	re  = regexp.MustCompile(`mul\((\d+),(\d+)\)`)                    // mul(x,y)
 	nre = regexp.MustCompile(`mul\((\d+),(\d+)\)|don't\(\).*?do\(\)`) // mul(x,y)|don't()...do()
-)
-
-const (
-	DONT = "don't"
 )
 
 func solve1(input string) {
