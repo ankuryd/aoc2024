@@ -6,7 +6,15 @@ import (
 	"os"
 	"strconv"
 
-	"aoc2024/day1"
+	"aoc2024/day01"
+	"aoc2024/day02"
+	"aoc2024/day03"
+	"aoc2024/day04"
+	"aoc2024/day05"
+	"aoc2024/day06"
+	"aoc2024/day07"
+	"aoc2024/day08"
+	"aoc2024/day09"
 	"aoc2024/day10"
 	"aoc2024/day11"
 	"aoc2024/day12"
@@ -17,20 +25,12 @@ import (
 	"aoc2024/day17"
 	"aoc2024/day18"
 	"aoc2024/day19"
-	"aoc2024/day2"
 	"aoc2024/day20"
 	"aoc2024/day21"
 	"aoc2024/day22"
 	"aoc2024/day23"
 	"aoc2024/day24"
 	"aoc2024/day25"
-	"aoc2024/day3"
-	"aoc2024/day4"
-	"aoc2024/day5"
-	"aoc2024/day6"
-	"aoc2024/day7"
-	"aoc2024/day8"
-	"aoc2024/day9"
 
 	"aoc2024/util"
 
@@ -39,15 +39,15 @@ import (
 
 var (
 	dayFuncs = map[int]func(day int, input []string){
-		1:  day1.Run,
-		2:  day2.Run,
-		3:  day3.Run,
-		4:  day4.Run,
-		5:  day5.Run,
-		6:  day6.Run,
-		7:  day7.Run,
-		8:  day8.Run,
-		9:  day9.Run,
+		1:  day01.Run,
+		2:  day02.Run,
+		3:  day03.Run,
+		4:  day04.Run,
+		5:  day05.Run,
+		6:  day06.Run,
+		7:  day07.Run,
+		8:  day08.Run,
+		9:  day09.Run,
 		10: day10.Run,
 		11: day11.Run,
 		12: day12.Run,
