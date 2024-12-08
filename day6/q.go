@@ -1,11 +1,8 @@
 package day6
 
 import (
-	"bufio"
 	"fmt"
 	"log"
-	"os"
-	"strings"
 )
 
 type Pos struct {
@@ -139,23 +136,12 @@ func solve2(grid [][]int, startPos Pos, startDir Dir) {
 	fmt.Println(result)
 }
 
-func Run(day int) {
-	filename := fmt.Sprintf("day%d/input.txt", day)
-
-	file, err := os.Open(filename)
-	if err != nil {
-		log.Fatalf("Error opening file '%s': %v", filename, err)
-	}
-	defer file.Close()
-
+func Run(day int, input []string) {
 	grid := make([][]int, 0)
 	startPos := Pos{-1, -1}
 	startDir := Dir{0, 0}
-	lineNumber := 1
 
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		line := strings.TrimSpace(scanner.Text())
+	for lineNumber, line := range input {
 		if line == "" {
 			log.Fatalf("Invalid format on line %d: empty line", lineNumber)
 		}
@@ -178,12 +164,6 @@ func Run(day int) {
 		}
 
 		grid = append(grid, row)
-
-		lineNumber++
-	}
-
-	if err := scanner.Err(); err != nil {
-		log.Fatalf("Error reading file '%s': %v", filename, err)
 	}
 
 	fmt.Println("Question 1 output:")

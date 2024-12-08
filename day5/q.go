@@ -1,10 +1,8 @@
 package day5
 
 import (
-	"bufio"
 	"fmt"
 	"log"
-	"os"
 	"strings"
 
 	"aoc2024/util"
@@ -58,23 +56,12 @@ func solve2(orders map[int]map[int]struct{}, updates [][]int) {
 	fmt.Println(result)
 }
 
-func Run(day int) {
-	filename := fmt.Sprintf("day%d/input.txt", day)
-
-	file, err := os.Open(filename)
-	if err != nil {
-		log.Fatalf("Error opening file '%s': %v", filename, err)
-	}
-	defer file.Close()
-
+func Run(day int, input []string) {
 	orders := make(map[int]map[int]struct{})
 	updates := make([][]int, 0)
-	lineNumber := 1
 
-	scanner := bufio.NewScanner(file)
 	isOrder := true
-	for scanner.Scan() {
-		line := strings.TrimSpace(scanner.Text())
+	for lineNumber, line := range input {
 		if line == "" {
 			isOrder = false
 			continue
@@ -106,12 +93,6 @@ func Run(day int) {
 
 			updates = append(updates, intParts)
 		}
-
-		lineNumber++
-	}
-
-	if err := scanner.Err(); err != nil {
-		log.Fatalf("Error reading file '%s': %v", filename, err)
 	}
 
 	fmt.Println("Question 1 output:")

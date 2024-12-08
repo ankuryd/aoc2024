@@ -1,11 +1,9 @@
 package day7
 
 import (
-	"bufio"
 	"fmt"
 	"log"
 	"math"
-	"os"
 	"strconv"
 	"strings"
 
@@ -84,21 +82,10 @@ func solve2(tests []Test) {
 	fmt.Println(result)
 }
 
-func Run(day int) {
-	filename := fmt.Sprintf("day%d/input.txt", day)
-
-	file, err := os.Open(filename)
-	if err != nil {
-		log.Fatalf("Error opening file '%s': %v", filename, err)
-	}
-	defer file.Close()
-
+func Run(day int, input []string) {
 	tests := make([]Test, 0)
-	lineNumber := 1
 
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		line := strings.TrimSpace(scanner.Text())
+	for lineNumber, line := range input {
 		if line == "" {
 			log.Fatalf("Invalid format on line %d: empty line", lineNumber)
 		}
@@ -120,12 +107,6 @@ func Run(day int) {
 		}
 
 		tests = append(tests, Test{output, intInputs})
-
-		lineNumber++
-	}
-
-	if err := scanner.Err(); err != nil {
-		log.Fatalf("Error reading file '%s': %v", filename, err)
 	}
 
 	fmt.Println("Question 1 output:")

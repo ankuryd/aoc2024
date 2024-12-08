@@ -1,10 +1,8 @@
 package day2
 
 import (
-	"bufio"
 	"fmt"
 	"log"
-	"os"
 	"strings"
 
 	"aoc2024/util"
@@ -95,6 +93,7 @@ func solve2(reports [][]int) {
 	result := 0
 	for _, report := range reports {
 		if isValid(report) || isValidWithOneRemoved(report) {
+			fmt.Println(report)
 			result++
 		}
 	}
@@ -102,38 +101,21 @@ func solve2(reports [][]int) {
 	fmt.Println(result)
 }
 
-func Run(day int) {
-	filename := fmt.Sprintf("day%d/input.txt", day)
-
-	file, err := os.Open(filename)
-	if err != nil {
-		log.Fatalf("Error opening file '%s': %v", filename, err)
-	}
-	defer file.Close()
-
+func Run(day int, input []string) {
 	reports := make([][]int, 0)
-	lineNumber := 1
 
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		line := strings.TrimSpace(scanner.Text())
+	for lineNumber, line := range input {
 		if line == "" {
 			log.Fatalf("Invalid format on line %d: empty line", lineNumber)
 		}
 
 		fields := strings.Fields(line)
-
 		intFields, err := util.ConvertToIntSlice(fields)
 		if err != nil {
 			log.Fatalf("Error converting '%s' to integer on line %d: %v", line, lineNumber, err)
 		}
 
 		reports = append(reports, intFields)
-		lineNumber++
-	}
-
-	if err := scanner.Err(); err != nil {
-		log.Fatalf("Error reading file '%s': %v", filename, err)
 	}
 
 	fmt.Println("Question 1 output:")

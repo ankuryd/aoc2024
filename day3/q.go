@@ -1,10 +1,8 @@
 package day3
 
 import (
-	"bufio"
 	"fmt"
 	"log"
-	"os"
 	"regexp"
 	"strconv"
 	"strings"
@@ -73,40 +71,20 @@ func solve2(input string) {
 	fmt.Println(result)
 }
 
-func Run(day int) {
-	filename := fmt.Sprintf("day%d/input.txt", day)
-
-	file, err := os.Open(filename)
-	if err != nil {
-		log.Fatalf("Error opening file '%s': %v", filename, err)
-	}
-	defer file.Close()
-
-	inputs := make([]string, 0)
-	lineNumber := 1
-
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		line := strings.TrimSpace(scanner.Text())
+func Run(day int, input []string) {
+	for lineNumber, line := range input {
 		if line == "" {
 			log.Fatalf("Invalid format on line %d: empty line", lineNumber)
 		}
-
-		inputs = append(inputs, line)
-		lineNumber++
 	}
 
-	if err := scanner.Err(); err != nil {
-		log.Fatalf("Error reading file '%s': %v", filename, err)
-	}
-
-	input := strings.Join(inputs, "")
+	combined := strings.Join(input, "")
 
 	fmt.Println("Question 1 output:")
-	solve1(input)
+	solve1(combined)
 
 	fmt.Println("--------------------------------")
 
 	fmt.Println("Question 2 output:")
-	solve2(input)
+	solve2(combined)
 }

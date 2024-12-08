@@ -1,11 +1,8 @@
 package day4
 
 import (
-	"bufio"
 	"fmt"
 	"log"
-	"os"
-	"strings"
 )
 
 type Dir struct {
@@ -105,38 +102,18 @@ func solve2(inputs []string) {
 	fmt.Println(result)
 }
 
-func Run(day int) {
-	filename := fmt.Sprintf("day%d/input.txt", day)
-
-	file, err := os.Open(filename)
-	if err != nil {
-		log.Fatalf("Error opening file '%s': %v", filename, err)
-	}
-	defer file.Close()
-
-	inputs := make([]string, 0)
-	lineNumber := 1
-
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		line := strings.TrimSpace(scanner.Text())
+func Run(day int, input []string) {
+	for lineNumber, line := range input {
 		if line == "" {
 			log.Fatalf("Invalid format on line %d: empty line", lineNumber)
 		}
-
-		inputs = append(inputs, line)
-		lineNumber++
-	}
-
-	if err := scanner.Err(); err != nil {
-		log.Fatalf("Error reading file '%s': %v", filename, err)
 	}
 
 	fmt.Println("Question 1 output:")
-	solve1(inputs)
+	solve1(input)
 
 	fmt.Println("--------------------------------")
 
 	fmt.Println("Question 2 output:")
-	solve2(inputs)
+	solve2(input)
 }

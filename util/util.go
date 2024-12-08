@@ -1,16 +1,48 @@
 package util
 
 import (
+	"bufio"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 )
 
-// ValidateFile checks if the input file for the given day exists, and if not, it downloads it
-func ValidateFile(day int) {
+// ProcessInput validates the input for the given day and returns the input as a slice of strings
+func ProcessInput(day int, isTest bool) []string {
+	ValidateInput(day)
+
+	filename := fmt.Sprintf("day%d/input.txt", day)
+	if isTest {
+		filename = fmt.Sprintf("day%d/test.txt", day)
+	}
+
+	file, err := os.Open(filename)
+	if err != nil {
+		log.Fatalf("Error opening file '%s': %v", filename, err)
+	}
+	defer file.Close()
+
+	input := make([]string, 0)
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := strings.TrimSpace(scanner.Text())
+		input = append(input, line)
+	}
+
+	if err := scanner.Err(); err != nil {
+		log.Fatalf("Error reading file '%s': %v", filename, err)
+	}
+
+	return input
+}
+
+// ValidateInput checks if the input file for the given day exists, and if not, it downloads it
+func ValidateInput(day int) {
 	filename := fmt.Sprintf("day%d/input.txt", day)
 	if _, err := os.Stat(filename); os.IsNotExist(err) {
 		fmt.Printf("Downloading input for day %d\n", day)

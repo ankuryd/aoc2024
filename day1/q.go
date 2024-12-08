@@ -1,10 +1,8 @@
 package day1
 
 import (
-	"bufio"
 	"fmt"
 	"log"
-	"os"
 	"sort"
 	"strings"
 
@@ -48,21 +46,10 @@ func solve2(list1, list2 []int) {
 	fmt.Println(result)
 }
 
-func Run(day int) {
-	filename := fmt.Sprintf("day%d/input.txt", day)
-
-	file, err := os.Open(filename)
-	if err != nil {
-		log.Fatalf("Error opening file '%s': %v", filename, err)
-	}
-	defer file.Close()
-
+func Run(day int, input []string) {
 	var list1, list2 []int
-	lineNumber := 1
 
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		line := strings.TrimSpace(scanner.Text())
+	for lineNumber, line := range input {
 		if line == "" {
 			log.Fatalf("Invalid format on line %d: empty line", lineNumber)
 		}
@@ -79,12 +66,6 @@ func Run(day int) {
 
 		list1 = append(list1, intFields[0])
 		list2 = append(list2, intFields[1])
-
-		lineNumber++
-	}
-
-	if err := scanner.Err(); err != nil {
-		log.Fatalf("Error reading file '%s': %v", filename, err)
 	}
 
 	fmt.Println("Question 1 output:")
