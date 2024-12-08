@@ -6,7 +6,15 @@ import (
 )
 
 type Pos struct {
-	i, j int
+	x, y int
+}
+
+func (p Pos) InBounds() bool {
+	return p.x >= 0 && p.x < rows && p.y >= 0 && p.y < cols
+}
+
+func (p Pos) Move(d Dir) Pos {
+	return Pos{x: p.x + d.dx, y: p.y + d.dy}
 }
 
 type Cell struct {
@@ -14,11 +22,11 @@ type Cell struct {
 }
 
 type Dir struct {
-	di, dj int
+	dx, dy int
 }
 
 func (d Dir) RotateCW() Dir {
-	return Dir{di: d.dj, dj: -d.di}
+	return Dir{dx: d.dy, dy: -d.dx}
 }
 
 type State struct {
@@ -34,11 +42,13 @@ const (
 )
 
 var (
+	rows, cols int
+
 	dirs = map[rune]Dir{
-		north: {di: -1, dj: 0},
-		east:  {di: 0, dj: 1},
-		south: {di: 1, dj: 0},
-		west:  {di: 0, dj: -1},
+		north: {dx: -1, dy: 0},
+		east:  {dx: 0, dy: 1},
+		south: {dx: 1, dy: 0},
+		west:  {dx: 0, dy: -1},
 	}
 )
 
@@ -49,17 +59,17 @@ func solve1(grid [][]int, startPos Pos, startDir Dir) {
 	visited[Cell{currentPos}] = struct{}{}
 
 	for {
-		ni, nj := currentPos.i+currentDir.di, currentPos.j+currentDir.dj
-		if ni < 0 || ni >= len(grid) || nj < 0 || nj >= len(grid[ni]) {
+		nextPos := currentPos.Move(currentDir)
+		if !nextPos.InBounds() {
 			break
 		}
 
-		if grid[ni][nj] == 1 {
+		if grid[nextPos.x][nextPos.y] == 1 {
 			currentDir = currentDir.RotateCW()
 			continue
 		}
 
-		currentPos = Pos{i: ni, j: nj}
+		currentPos = nextPos
 		currentCell := Cell{currentPos}
 		visited[currentCell] = struct{}{}
 	}
@@ -74,12 +84,12 @@ func isLoop(grid [][]int, startPos Pos, startDir Dir) bool {
 	seenStates[State{Pos: currentPos, Dir: currentDir}] = struct{}{}
 
 	for {
-		ni, nj := currentPos.i+currentDir.di, currentPos.j+currentDir.dj
-		if ni < 0 || ni >= len(grid) || nj < 0 || nj >= len(grid[ni]) {
+		nextPos := currentPos.Move(currentDir)
+		if !nextPos.InBounds() {
 			return false
 		}
 
-		if grid[ni][nj] == 1 {
+		if grid[nextPos.x][nextPos.y] == 1 {
 			currentDir = currentDir.RotateCW()
 			currentState := State{Pos: currentPos, Dir: currentDir}
 			if _, ok := seenStates[currentState]; ok {
@@ -89,7 +99,7 @@ func isLoop(grid [][]int, startPos Pos, startDir Dir) bool {
 			continue
 		}
 
-		currentPos = Pos{i: ni, j: nj}
+		currentPos = nextPos
 		currentState := State{Pos: currentPos, Dir: currentDir}
 		if _, ok := seenStates[currentState]; ok {
 			return true
@@ -105,17 +115,17 @@ func solve2(grid [][]int, startPos Pos, startDir Dir) {
 	visited[Cell{currentPos}] = struct{}{}
 
 	for {
-		ni, nj := currentPos.i+currentDir.di, currentPos.j+currentDir.dj
-		if ni < 0 || ni >= len(grid) || nj < 0 || nj >= len(grid[ni]) {
+		nextPos := currentPos.Move(currentDir)
+		if !nextPos.InBounds() {
 			break
 		}
 
-		if grid[ni][nj] == 1 {
+		if grid[nextPos.x][nextPos.y] == 1 {
 			currentDir = currentDir.RotateCW()
 			continue
 		}
 
-		currentPos = Pos{i: ni, j: nj}
+		currentPos = nextPos
 		currentCell := Cell{currentPos}
 		visited[currentCell] = struct{}{}
 	}
@@ -126,11 +136,11 @@ func solve2(grid [][]int, startPos Pos, startDir Dir) {
 			continue
 		}
 
-		grid[cell.i][cell.j] = 1
+		grid[cell.x][cell.y] = 1
 		if isLoop(grid, startPos, startDir) {
 			result++
 		}
-		grid[cell.i][cell.j] = 0
+		grid[cell.x][cell.y] = 0
 	}
 
 	fmt.Println(result)
@@ -140,6 +150,9 @@ func Run(day int, input []string) {
 	grid := make([][]int, 0)
 	startPos := Pos{-1, -1}
 	startDir := Dir{0, 0}
+
+	rows = len(input)
+	cols = len(input[0])
 
 	for i, line := range input {
 		if line == "" {
