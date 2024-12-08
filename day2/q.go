@@ -72,10 +72,21 @@ func isValidWithOneRemoved(report []int) bool {
 
 			removalUsed = true
 
-			if i > 0 && isDiffValid(report[i+1]-report[i-1]) && ((report[i+1]-report[i-1] > 0) == (prevDiff > 0)) {
+			// Try removing report[i]
+			if i > 0 && isDiffValid(report[i+1]-report[i-1]) && ((report[i+1]-report[i-1]) > 0) == (prevDiff > 0) {
 				prevDiff = report[i+1] - report[i-1]
 			} else {
-				prevDiff = currDiff
+				// Try removing report[i+1]
+				if i+2 < len(report) {
+					if isDiffValid(report[i+2]-report[i]) && ((report[i+2]-report[i] > 0) == (prevDiff > 0)) {
+						prevDiff = report[i+2] - report[i]
+						i++ // Skip the next element as it's considered removed
+						continue
+					}
+				}
+
+				// If neither removal fixes the issue
+				return false
 			}
 		} else {
 			prevDiff = currDiff
@@ -93,7 +104,6 @@ func solve2(reports [][]int) {
 	result := 0
 	for _, report := range reports {
 		if isValid(report) || isValidWithOneRemoved(report) {
-			fmt.Println(report)
 			result++
 		}
 	}
