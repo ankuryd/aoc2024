@@ -61,7 +61,7 @@ func Run(day int, input []string) {
 	updates := make([][]int, 0)
 
 	isOrder := true
-	for lineNumber, line := range input {
+	for i, line := range input {
 		if line == "" {
 			isOrder = false
 			continue
@@ -70,12 +70,12 @@ func Run(day int, input []string) {
 		if isOrder {
 			parts := strings.Split(line, "|")
 			if len(parts) != 2 {
-				log.Fatalf("Invalid format on line %d: %s", lineNumber, line)
+				log.Fatalf("Invalid format on line %d: %s", i, line)
 			}
 
 			intParts, err := util.ConvertToIntSlice(parts)
 			if err != nil {
-				log.Fatalf("Error converting '%s' to integer on line %d: %v", line, lineNumber, err)
+				log.Fatalf("Error converting '%s' to integer on line %d: %v", line, i, err)
 			}
 
 			u, v := intParts[0], intParts[1]
@@ -88,7 +88,7 @@ func Run(day int, input []string) {
 			parts := strings.Split(line, ",")
 			intParts, err := util.ConvertToIntSlice(parts)
 			if err != nil {
-				log.Fatalf("Error converting '%s' to integer on line %d: %v", line, lineNumber, err)
+				log.Fatalf("Error converting '%s' to integer on line %d: %v", line, i, err)
 			}
 
 			updates = append(updates, intParts)

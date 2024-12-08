@@ -17,6 +17,12 @@ go get -u github.com/ankuryd/aoc2024
 
 ## Usage
 
+To get help:
+
+```bash
+go run main.go -h
+```
+
 To run a specific day:
 
 ```bash
@@ -27,4 +33,11 @@ To run all days:
 
 ```bash
 go run main.go -a
+```
+
+To run with test input:
+
+```bash
+go run main.go -d <day> -t
+go run main.go -a -t
 ```

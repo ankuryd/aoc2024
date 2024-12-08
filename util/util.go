@@ -15,9 +15,9 @@ import (
 func ProcessInput(day int, isTest bool) []string {
 	ValidateInput(day)
 
-	filename := fmt.Sprintf("day%d/input.txt", day)
+	filename := fmt.Sprintf("day%02d/input.txt", day)
 	if isTest {
-		filename = fmt.Sprintf("day%d/test.txt", day)
+		filename = fmt.Sprintf("day%02d/test.txt", day)
 	}
 
 	file, err := os.Open(filename)
@@ -43,7 +43,7 @@ func ProcessInput(day int, isTest bool) []string {
 
 // ValidateInput checks if the input file for the given day exists, and if not, it downloads it
 func ValidateInput(day int) {
-	filename := fmt.Sprintf("day%d/input.txt", day)
+	filename := fmt.Sprintf("day%02d/input.txt", day)
 	if _, err := os.Stat(filename); os.IsNotExist(err) {
 		fmt.Printf("Downloading input for day %d\n", day)
 		DownloadInput(day)
@@ -52,7 +52,7 @@ func ValidateInput(day int) {
 
 // DownloadInput downloads the input for the given day and saves it to the input.txt file
 func DownloadInput(day int) {
-	filename := fmt.Sprintf("day%d/input.txt", day)
+	filename := fmt.Sprintf("day%02d/input.txt", day)
 
 	req, err := http.NewRequest("GET", fmt.Sprintf("https://adventofcode.com/2024/day/%d/input", day), nil)
 	if err != nil {

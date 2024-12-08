@@ -85,25 +85,25 @@ func solve2(tests []Test) {
 func Run(day int, input []string) {
 	tests := make([]Test, 0)
 
-	for lineNumber, line := range input {
+	for i, line := range input {
 		if line == "" {
-			log.Fatalf("Invalid format on line %d: empty line", lineNumber)
+			log.Fatalf("Invalid format on line %d: empty line", i)
 		}
 
 		parts := strings.Split(line, ":")
 		if len(parts) != 2 {
-			log.Fatalf("Invalid format on line %d: expected 2 parts, got %d", lineNumber, len(parts))
+			log.Fatalf("Invalid format on line %d: expected 2 parts, got %d", i, len(parts))
 		}
 
 		output, err := strconv.Atoi(parts[0])
 		if err != nil {
-			log.Fatalf("Invalid format on line %d: expected int, got %v", lineNumber, err)
+			log.Fatalf("Invalid format on line %d: expected int, got %v", i, err)
 		}
 
 		inputs := strings.Fields(strings.TrimSpace(parts[1]))
 		intInputs, err := util.ConvertToIntSlice(inputs)
 		if err != nil {
-			log.Fatalf("Invalid format on line %d: expected ints, got %v", lineNumber, err)
+			log.Fatalf("Invalid format on line %d: expected ints, got %v", i, err)
 		}
 
 		tests = append(tests, Test{output, intInputs})

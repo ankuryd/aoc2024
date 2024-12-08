@@ -49,19 +49,19 @@ func solve2(list1, list2 []int) {
 func Run(day int, input []string) {
 	var list1, list2 []int
 
-	for lineNumber, line := range input {
+	for i, line := range input {
 		if line == "" {
-			log.Fatalf("Invalid format on line %d: empty line", lineNumber)
+			log.Fatalf("Invalid format on line %d: empty line", i)
 		}
 
 		fields := strings.Fields(line)
 		if len(fields) != 2 {
-			log.Fatalf("Invalid format on line %d: %q", lineNumber, line)
+			log.Fatalf("Invalid format on line %d: %q", i, line)
 		}
 
 		intFields, err := util.ConvertToIntSlice(fields)
 		if err != nil {
-			log.Fatalf("Error converting '%s' to integer on line %d: %v", line, lineNumber, err)
+			log.Fatalf("Error converting '%s' to integer on line %d: %v", line, i, err)
 		}
 
 		list1 = append(list1, intFields[0])

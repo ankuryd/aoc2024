@@ -141,14 +141,14 @@ func Run(day int, input []string) {
 	startPos := Pos{-1, -1}
 	startDir := Dir{0, 0}
 
-	for lineNumber, line := range input {
+	for i, line := range input {
 		if line == "" {
-			log.Fatalf("Invalid format on line %d: empty line", lineNumber)
+			log.Fatalf("Invalid format on line %d: empty line", i)
 		}
 
 		row := make([]int, 0)
 
-		for i, char := range line {
+		for j, char := range line {
 			switch char {
 			case '.':
 				row = append(row, 0)
@@ -156,10 +156,10 @@ func Run(day int, input []string) {
 				row = append(row, 1)
 			case north, south, west, east:
 				row = append(row, 0)
-				startPos = Pos{lineNumber - 1, i}
+				startPos = Pos{i - 1, j}
 				startDir = dirs[char]
 			default:
-				log.Fatalf("Invalid character '%c' on line %d, column %d", char, lineNumber, i)
+				log.Fatalf("Invalid character '%c' on line %d, column %d", char, i, j)
 			}
 		}
 

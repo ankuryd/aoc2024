@@ -103,9 +103,9 @@ func solve2(inputs []string) {
 }
 
 func Run(day int, input []string) {
-	for lineNumber, line := range input {
+	for i, line := range input {
 		if line == "" {
-			log.Fatalf("Invalid format on line %d: empty line", lineNumber)
+			log.Fatalf("Invalid format on line %d: empty line", i)
 		}
 	}
 
