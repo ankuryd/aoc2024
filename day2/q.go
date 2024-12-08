@@ -60,40 +60,15 @@ func isValidWithOneRemoved(report []int) bool {
 		return true
 	}
 
-	removalUsed := false
-	prevDiff := 0
-
-	for i := 0; i < len(report)-1; i++ {
-		currDiff := report[i+1] - report[i]
-		if !isDiffValid(currDiff) || (i > 0 && (currDiff > 0) != (prevDiff > 0)) {
-			if removalUsed {
-				return false
-			}
-
-			removalUsed = true
-
-			// Try removing report[i]
-			if i > 0 && isDiffValid(report[i+1]-report[i-1]) && ((report[i+1]-report[i-1]) > 0) == (prevDiff > 0) {
-				prevDiff = report[i+1] - report[i-1]
-			} else {
-				// Try removing report[i+1]
-				if i+2 < len(report) {
-					if isDiffValid(report[i+2]-report[i]) && ((report[i+2]-report[i] > 0) == (prevDiff > 0)) {
-						prevDiff = report[i+2] - report[i]
-						i++ // Skip the next element as it's considered removed
-						continue
-					}
-				}
-
-				// If neither removal fixes the issue
-				return false
-			}
-		} else {
-			prevDiff = currDiff
+	for i := 0; i < len(report); i++ {
+		slice := make([]int, len(report))
+		copy(slice, report)
+		if isValid(append(slice[:i], slice[i+1:]...)) {
+			return true
 		}
 	}
 
-	return true
+	return false
 }
 
 func solve2(reports [][]int) {
