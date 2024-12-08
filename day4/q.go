@@ -22,7 +22,7 @@ var (
 
 	allDirs = []Dir{north, east, south, west, northEast, southEast, southWest, northWest}
 
-	xDirs = []Dir{northWest, southEast}
+	xDirs = []Dir{northEast, southEast}
 )
 
 var (
