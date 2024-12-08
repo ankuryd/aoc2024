@@ -64,7 +64,7 @@ func solve1(grid [][]int, startPos Pos, startDir Dir) {
 		visited[currentCell] = struct{}{}
 	}
 
-	fmt.Println(len(visited))
+	fmt.Println(len(visited) + 1)
 }
 
 func isLoop(grid [][]int, startPos Pos, startDir Dir) bool {
