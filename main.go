@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-	"log"
 	"os"
 	"strconv"
 
@@ -70,24 +68,24 @@ var (
 func run(day int, isTest bool) {
 	runFunc, ok := dayFuncs[day]
 	if !ok {
-		log.Fatalf("Error: Day '%d' not implemented.", day)
+		util.Fatal("Error: Day '%d' not implemented.", day)
 	}
 
-	fmt.Printf("Running day %d\n", day)
+	util.Print("Running day %d", day)
 	input := util.ProcessInput(day, isTest)
 	runFunc(day, input)
-	fmt.Println("================================")
+	util.MegaSeparator()
 }
 
 func main() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatalf("Error loading .env file: %v", err)
+		util.Fatal("Error loading .env file: %v", err)
 	}
 
 	args := os.Args[1:]
 	if len(args) == 0 {
-		log.Fatal("Error: No arguments provided. Use -h or --help for more information.")
+		util.Fatal("Error: No arguments provided. Use -h or --help for more information.")
 	}
 
 	day := 0
@@ -97,7 +95,7 @@ func main() {
 	for i := 0; i < len(args); i++ {
 		switch args[i] {
 		case "-h", "--help":
-			fmt.Println(`
+			util.Print(`
 Usage: go run main.go [options]
 
 Options:
@@ -108,24 +106,24 @@ Options:
 			return
 		case "-d":
 			if i+1 >= len(args) {
-				log.Fatal("Error: -d flag requires a day number.")
+				util.Fatal("Error: -d flag requires a day number.")
 			}
 
 			day, err = strconv.Atoi(args[i+1])
 			if err != nil {
-				log.Fatalf("Error: Invalid day '%s': %v", args[i+1], err)
+				util.Fatal("Error: Invalid day '%s': %v", args[i+1], err)
 			}
 			i++
 
 			if day < 1 || day > 25 {
-				log.Fatalf("Error: Day '%d' is out of range (1-25).", day)
+				util.Fatal("Error: Day '%d' is out of range (1-25).", day)
 			}
 		case "-t":
 			isTest = true
 		case "-a":
 			runAll = true
 		default:
-			log.Fatalf("Error: Invalid argument '%s'. Use -h or --help for more information.", args[i])
+			util.Fatal("Error: Invalid argument '%s'. Use -h or --help for more information.", args[i])
 		}
 	}
 

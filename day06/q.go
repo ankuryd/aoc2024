@@ -2,7 +2,9 @@ package day06
 
 import (
 	"fmt"
-	"log"
+	"time"
+
+	"aoc2024/util"
 )
 
 type Pos struct {
@@ -52,7 +54,7 @@ var (
 	}
 )
 
-func solve1(grid [][]int, startPos Pos, startDir Dir) {
+func solve1(grid [][]int, startPos Pos, startDir Dir) string {
 	visited := make(map[Cell]struct{})
 	currentPos := startPos
 	currentDir := startDir
@@ -74,7 +76,7 @@ func solve1(grid [][]int, startPos Pos, startDir Dir) {
 		visited[currentCell] = struct{}{}
 	}
 
-	fmt.Println(len(visited) + 1)
+	return fmt.Sprintf("%d", len(visited)+1)
 }
 
 func isLoop(grid [][]int, startPos Pos, startDir Dir) bool {
@@ -108,7 +110,7 @@ func isLoop(grid [][]int, startPos Pos, startDir Dir) bool {
 	}
 }
 
-func solve2(grid [][]int, startPos Pos, startDir Dir) {
+func solve2(grid [][]int, startPos Pos, startDir Dir) string {
 	visited := make(map[Cell]struct{})
 	currentPos := startPos
 	currentDir := startDir
@@ -143,7 +145,7 @@ func solve2(grid [][]int, startPos Pos, startDir Dir) {
 		grid[cell.x][cell.y] = 0
 	}
 
-	fmt.Println(result)
+	return fmt.Sprintf("%d", result)
 }
 
 func Run(day int, input []string) {
@@ -156,7 +158,7 @@ func Run(day int, input []string) {
 
 	for i, line := range input {
 		if line == "" {
-			log.Fatalf("Invalid format on line %d: empty line", i)
+			util.Fatal("Invalid format on line %d: empty line", i)
 		}
 
 		row := make([]int, 0)
@@ -172,18 +174,22 @@ func Run(day int, input []string) {
 				startPos = Pos{i - 1, j}
 				startDir = dirs[char]
 			default:
-				log.Fatalf("Invalid character '%c' on line %d, column %d", char, i, j)
+				util.Fatal("Invalid character '%c' on line %d, column %d", char, i, j)
 			}
 		}
 
 		grid = append(grid, row)
 	}
 
-	fmt.Println("Question 1 output:")
-	solve1(grid, startPos, startDir)
+	startTime := time.Now()
+	util.Output(1, solve1(grid, startPos, startDir))
+	elapsed := time.Since(startTime)
+	util.TimeTaken(elapsed)
 
-	fmt.Println("--------------------------------")
+	util.Separator()
 
-	fmt.Println("Question 2 output:")
-	solve2(grid, startPos, startDir)
+	startTime = time.Now()
+	util.Output(2, solve2(grid, startPos, startDir))
+	elapsed = time.Since(startTime)
+	util.TimeTaken(elapsed)
 }

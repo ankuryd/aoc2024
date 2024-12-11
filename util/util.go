@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"os"
 	"strconv"
@@ -22,7 +21,7 @@ func ProcessInput(day int, isTest bool) []string {
 
 	file, err := os.Open(filename)
 	if err != nil {
-		log.Fatalf("Error opening file '%s': %v", filename, err)
+		Fatal("Error opening file '%s': %v", filename, err)
 	}
 	defer file.Close()
 
@@ -35,7 +34,7 @@ func ProcessInput(day int, isTest bool) []string {
 	}
 
 	if err := scanner.Err(); err != nil {
-		log.Fatalf("Error reading file '%s': %v", filename, err)
+		Fatal("Error reading file '%s': %v", filename, err)
 	}
 
 	return input
@@ -45,7 +44,7 @@ func ProcessInput(day int, isTest bool) []string {
 func ValidateInput(day int) {
 	filename := fmt.Sprintf("day%02d/input.txt", day)
 	if _, err := os.Stat(filename); os.IsNotExist(err) {
-		fmt.Printf("Downloading input for day %d\n", day)
+		Print("Downloading input for day %d\n", day)
 		DownloadInput(day)
 	}
 }
@@ -56,7 +55,7 @@ func DownloadInput(day int) {
 
 	req, err := http.NewRequest("GET", fmt.Sprintf("https://adventofcode.com/2024/day/%d/input", day), nil)
 	if err != nil {
-		log.Fatalf("Error creating request: %v", err)
+		Fatal("Error creating request: %v", err)
 	}
 
 	req.Header.Set("Accept", "text/html")
@@ -65,23 +64,23 @@ func DownloadInput(day int) {
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		log.Fatalf("Error making request: %v", err)
+		Fatal("Error making request: %v", err)
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		log.Fatalf("Failed to download input: status code %d", resp.StatusCode)
+		Fatal("Failed to download input: status code %d", resp.StatusCode)
 	}
 
 	out, err := os.Create(filename)
 	if err != nil {
-		log.Fatalf("Error creating file: %v", err)
+		Fatal("Error creating file: %v", err)
 	}
 	defer out.Close()
 
 	_, err = io.Copy(out, resp.Body)
 	if err != nil {
-		log.Fatalf("Error writing to file: %v", err)
+		Fatal("Error writing to file: %v", err)
 	}
 }
 

@@ -2,16 +2,16 @@ package day01
 
 import (
 	"fmt"
-	"log"
 	"sort"
 	"strings"
+	"time"
 
 	"aoc2024/util"
 )
 
-func solve1(list1, list2 []int) {
+func solve1(list1, list2 []int) string {
 	if len(list1) != len(list2) {
-		log.Fatal("Error: Lists are of different lengths")
+		util.Fatal("Error: Lists are of different lengths")
 	}
 
 	sort.Ints(list1)
@@ -27,10 +27,10 @@ func solve1(list1, list2 []int) {
 		result += diff
 	}
 
-	fmt.Println(result)
+	return fmt.Sprintf("%d", result)
 }
 
-func solve2(list1, list2 []int) {
+func solve2(list1, list2 []int) string {
 	counter := make(map[int]int)
 	for _, num := range list2 {
 		counter[num]++
@@ -43,7 +43,7 @@ func solve2(list1, list2 []int) {
 		}
 	}
 
-	fmt.Println(result)
+	return fmt.Sprintf("%d", result)
 }
 
 func Run(day int, input []string) {
@@ -51,28 +51,32 @@ func Run(day int, input []string) {
 
 	for i, line := range input {
 		if line == "" {
-			log.Fatalf("Invalid format on line %d: empty line", i)
+			util.Fatal("Invalid format on line %d: empty line", i)
 		}
 
 		fields := strings.Fields(line)
 		if len(fields) != 2 {
-			log.Fatalf("Invalid format on line %d: %q", i, line)
+			util.Fatal("Invalid format on line %d: %q", i, line)
 		}
 
 		intFields, err := util.ConvertToIntSlice(fields)
 		if err != nil {
-			log.Fatalf("Error converting '%s' to integer on line %d: %v", line, i, err)
+			util.Fatal("Error converting '%s' to integer on line %d: %v", line, i, err)
 		}
 
 		list1 = append(list1, intFields[0])
 		list2 = append(list2, intFields[1])
 	}
 
-	fmt.Println("Question 1 output:")
-	solve1(list1, list2)
+	startTime := time.Now()
+	util.Output(1, solve1(list1, list2))
+	elapsed := time.Since(startTime)
+	util.TimeTaken(elapsed)
 
-	fmt.Println("--------------------------------")
+	util.Separator()
 
-	fmt.Println("Question 2 output:")
-	solve2(list1, list2)
+	startTime = time.Now()
+	util.Output(2, solve2(list1, list2))
+	elapsed = time.Since(startTime)
+	util.TimeTaken(elapsed)
 }

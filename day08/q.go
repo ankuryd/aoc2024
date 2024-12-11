@@ -2,7 +2,9 @@ package day08
 
 import (
 	"fmt"
-	"log"
+	"time"
+
+	"aoc2024/util"
 )
 
 type Pos struct {
@@ -30,7 +32,7 @@ var (
 	rows, cols int
 )
 
-func solve1(antennas map[rune][]Pos) {
+func solve1(antennas map[rune][]Pos) string {
 	antiNodes := make(map[Pos]struct{})
 	var antiNode Pos
 	for _, positions := range antennas {
@@ -51,10 +53,10 @@ func solve1(antennas map[rune][]Pos) {
 		}
 	}
 
-	fmt.Println(len(antiNodes))
+	return fmt.Sprintf("%d", len(antiNodes))
 }
 
-func solve2(antennas map[rune][]Pos) {
+func solve2(antennas map[rune][]Pos) string {
 	antiNodes := make(map[Pos]struct{})
 	var antiNode Pos
 	for _, positions := range antennas {
@@ -91,7 +93,7 @@ func solve2(antennas map[rune][]Pos) {
 		}
 	}
 
-	fmt.Println(len(antiNodes))
+	return fmt.Sprintf("%d", len(antiNodes))
 }
 
 func Run(day int, input []string) {
@@ -102,7 +104,7 @@ func Run(day int, input []string) {
 
 	for i, line := range input {
 		if line == "" {
-			log.Fatalf("Invalid format on line %d: empty line", i)
+			util.Fatal("Invalid format on line %d: empty line", i)
 		}
 
 		for j, char := range line {
@@ -117,11 +119,15 @@ func Run(day int, input []string) {
 		}
 	}
 
-	fmt.Println("Question 1 output:")
-	solve1(antennas)
+	startTime := time.Now()
+	util.Output(1, solve1(antennas))
+	elapsed := time.Since(startTime)
+	util.TimeTaken(elapsed)
 
-	fmt.Println("--------------------------------")
+	util.Separator()
 
-	fmt.Println("Question 2 output:")
-	solve2(antennas)
+	startTime = time.Now()
+	util.Output(2, solve2(antennas))
+	elapsed = time.Since(startTime)
+	util.TimeTaken(elapsed)
 }

@@ -2,10 +2,12 @@ package day03
 
 import (
 	"fmt"
-	"log"
 	"regexp"
 	"strconv"
 	"strings"
+	"time"
+
+	"aoc2024/util"
 )
 
 const (
@@ -17,36 +19,34 @@ var (
 	nre = regexp.MustCompile(`mul\((\d+),(\d+)\)|don't\(\).*?do\(\)`) // mul(x,y)|don't()...do()
 )
 
-func solve1(input string) {
+func solve1(input string) string {
 	matches := re.FindAllStringSubmatch(input, -1)
 	if len(matches) == 0 {
-		fmt.Println("no matches for mul(x,y)")
-		return
+		util.Fatal("no matches for mul(x,y)")
 	}
 
 	result := 0
 	for _, match := range matches {
 		first, err := strconv.Atoi(match[1])
 		if err != nil {
-			log.Fatalf("Error converting '%s' to integer: %v", match[1], err)
+			util.Fatal("Error converting '%s' to integer: %v", match[1], err)
 		}
 
 		second, err := strconv.Atoi(match[2])
 		if err != nil {
-			log.Fatalf("Error converting '%s' to integer: %v", match[2], err)
+			util.Fatal("Error converting '%s' to integer: %v", match[2], err)
 		}
 
 		result += first * second
 	}
 
-	fmt.Println(result)
+	return fmt.Sprintf("%d", result)
 }
 
-func solve2(input string) {
+func solve2(input string) string {
 	matches := nre.FindAllStringSubmatch(input, -1)
 	if len(matches) == 0 {
-		fmt.Println("no matches for mul(x,y)|don't()...do()")
-		return
+		util.Fatal("no matches for mul(x,y)|don't()...do()")
 	}
 
 	result := 0
@@ -57,34 +57,38 @@ func solve2(input string) {
 
 		first, err := strconv.Atoi(match[1])
 		if err != nil {
-			log.Fatalf("Error converting '%s' to integer: %v", match[1], err)
+			util.Fatal("Error converting '%s' to integer: %v", match[1], err)
 		}
 
 		second, err := strconv.Atoi(match[2])
 		if err != nil {
-			log.Fatalf("Error converting '%s' to integer: %v", match[2], err)
+			util.Fatal("Error converting '%s' to integer: %v", match[2], err)
 		}
 
 		result += first * second
 	}
 
-	fmt.Println(result)
+	return fmt.Sprintf("%d", result)
 }
 
 func Run(day int, input []string) {
 	for i, line := range input {
 		if line == "" {
-			log.Fatalf("Invalid format on line %d: empty line", i)
+			util.Fatal("Invalid format on line %d: empty line", i)
 		}
 	}
 
 	combined := strings.Join(input, "")
 
-	fmt.Println("Question 1 output:")
-	solve1(combined)
+	startTime := time.Now()
+	util.Output(1, solve1(combined))
+	elapsed := time.Since(startTime)
+	util.TimeTaken(elapsed)
 
-	fmt.Println("--------------------------------")
+	util.Separator()
 
-	fmt.Println("Question 2 output:")
-	solve2(combined)
+	startTime = time.Now()
+	util.Output(2, solve2(combined))
+	elapsed = time.Since(startTime)
+	util.TimeTaken(elapsed)
 }

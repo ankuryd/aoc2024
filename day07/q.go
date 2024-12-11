@@ -2,10 +2,10 @@ package day07
 
 import (
 	"fmt"
-	"log"
 	"math"
 	"strconv"
 	"strings"
+	"time"
 
 	"aoc2024/util"
 )
@@ -58,7 +58,7 @@ func (t Test) isValid(validOps []Op, index int, result int) bool {
 	return false
 }
 
-func solve1(tests []Test) {
+func solve1(tests []Test) string {
 	result := 0
 
 	for _, test := range tests {
@@ -67,10 +67,10 @@ func solve1(tests []Test) {
 		}
 	}
 
-	fmt.Println(result)
+	return fmt.Sprintf("%d", result)
 }
 
-func solve2(tests []Test) {
+func solve2(tests []Test) string {
 	result := 0
 
 	for _, test := range tests {
@@ -79,7 +79,7 @@ func solve2(tests []Test) {
 		}
 	}
 
-	fmt.Println(result)
+	return fmt.Sprintf("%d", result)
 }
 
 func Run(day int, input []string) {
@@ -87,33 +87,37 @@ func Run(day int, input []string) {
 
 	for i, line := range input {
 		if line == "" {
-			log.Fatalf("Invalid format on line %d: empty line", i)
+			util.Fatal("Invalid format on line %d: empty line", i)
 		}
 
 		parts := strings.Split(line, ":")
 		if len(parts) != 2 {
-			log.Fatalf("Invalid format on line %d: expected 2 parts, got %d", i, len(parts))
+			util.Fatal("Invalid format on line %d: expected 2 parts, got %d", i, len(parts))
 		}
 
 		output, err := strconv.Atoi(parts[0])
 		if err != nil {
-			log.Fatalf("Invalid format on line %d: expected int, got %v", i, err)
+			util.Fatal("Invalid format on line %d: expected int, got %v", i, err)
 		}
 
 		inputs := strings.Fields(strings.TrimSpace(parts[1]))
 		intInputs, err := util.ConvertToIntSlice(inputs)
 		if err != nil {
-			log.Fatalf("Invalid format on line %d: expected ints, got %v", i, err)
+			util.Fatal("Invalid format on line %d: expected ints, got %v", i, err)
 		}
 
 		tests = append(tests, Test{output, intInputs})
 	}
 
-	fmt.Println("Question 1 output:")
-	solve1(tests)
+	startTime := time.Now()
+	util.Output(1, solve1(tests))
+	elapsed := time.Since(startTime)
+	util.TimeTaken(elapsed)
 
-	fmt.Println("--------------------------------")
+	util.Separator()
 
-	fmt.Println("Question 2 output:")
-	solve2(tests)
+	startTime = time.Now()
+	util.Output(2, solve2(tests))
+	elapsed = time.Since(startTime)
+	util.TimeTaken(elapsed)
 }

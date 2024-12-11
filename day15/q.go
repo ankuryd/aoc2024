@@ -2,27 +2,37 @@ package day15
 
 import (
 	"fmt"
-	"log"
+	"time"
+
+	"aoc2024/util"
 )
 
-func solve1() {}
+func solve1() string {
+	return fmt.Sprintf("%d", 0)
+}
 
-func solve2() {}
+func solve2() string {
+	return fmt.Sprintf("%d", 0)
+}
 
 func Run(day int, input []string) {
-	log.Fatalf("Error: Day '%d' not implemented.", day)
+	util.Fatal("Error: Day '%d' not implemented.", day)
 
 	for i, line := range input {
 		if line == "" {
-			log.Fatalf("Invalid format on line %d: empty line", i)
+			util.Fatal("Invalid format on line %d: empty line", i)
 		}
 	}
 
-	fmt.Println("Question 1 output:")
-	solve1()
+	startTime := time.Now()
+	util.Output(1, solve1())
+	elapsed := time.Since(startTime)
+	util.TimeTaken(elapsed)
 
-	fmt.Println("--------------------------------")
+	util.Separator()
 
-	fmt.Println("Question 2 output:")
-	solve2()
+	startTime = time.Now()
+	util.Output(2, solve2())
+	elapsed = time.Since(startTime)
+	util.TimeTaken(elapsed)
 }

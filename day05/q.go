@@ -2,8 +2,8 @@ package day05
 
 import (
 	"fmt"
-	"log"
 	"strings"
+	"time"
 
 	"aoc2024/util"
 )
@@ -22,7 +22,7 @@ func isInvalid(orders map[int]map[int]struct{}, update []int) (int, int, bool) {
 	return -1, -1, false
 }
 
-func solve1(orders map[int]map[int]struct{}, updates [][]int) {
+func solve1(orders map[int]map[int]struct{}, updates [][]int) string {
 	result := 0
 	for _, update := range updates {
 		_, _, isInvalid := isInvalid(orders, update)
@@ -31,10 +31,10 @@ func solve1(orders map[int]map[int]struct{}, updates [][]int) {
 		}
 	}
 
-	fmt.Println(result)
+	return fmt.Sprintf("%d", result)
 }
 
-func solve2(orders map[int]map[int]struct{}, updates [][]int) {
+func solve2(orders map[int]map[int]struct{}, updates [][]int) string {
 	result := 0
 	for _, update := range updates {
 		swapped := false
@@ -53,7 +53,7 @@ func solve2(orders map[int]map[int]struct{}, updates [][]int) {
 		}
 	}
 
-	fmt.Println(result)
+	return fmt.Sprintf("%d", result)
 }
 
 func Run(day int, input []string) {
@@ -70,12 +70,12 @@ func Run(day int, input []string) {
 		if isOrder {
 			parts := strings.Split(line, "|")
 			if len(parts) != 2 {
-				log.Fatalf("Invalid format on line %d: %s", i, line)
+				util.Fatal("Invalid format on line %d: %s", i, line)
 			}
 
 			intParts, err := util.ConvertToIntSlice(parts)
 			if err != nil {
-				log.Fatalf("Error converting '%s' to integer on line %d: %v", line, i, err)
+				util.Fatal("Error converting '%s' to integer on line %d: %v", line, i, err)
 			}
 
 			u, v := intParts[0], intParts[1]
@@ -88,18 +88,22 @@ func Run(day int, input []string) {
 			parts := strings.Split(line, ",")
 			intParts, err := util.ConvertToIntSlice(parts)
 			if err != nil {
-				log.Fatalf("Error converting '%s' to integer on line %d: %v", line, i, err)
+				util.Fatal("Error converting '%s' to integer on line %d: %v", line, i, err)
 			}
 
 			updates = append(updates, intParts)
 		}
 	}
 
-	fmt.Println("Question 1 output:")
-	solve1(orders, updates)
+	startTime := time.Now()
+	util.Output(1, solve1(orders, updates))
+	elapsed := time.Since(startTime)
+	util.TimeTaken(elapsed)
 
-	fmt.Println("--------------------------------")
+	util.Separator()
 
-	fmt.Println("Question 2 output:")
-	solve2(orders, updates)
+	startTime = time.Now()
+	util.Output(2, solve2(orders, updates))
+	elapsed = time.Since(startTime)
+	util.TimeTaken(elapsed)
 }

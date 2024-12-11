@@ -2,8 +2,8 @@ package day02
 
 import (
 	"fmt"
-	"log"
 	"strings"
+	"time"
 
 	"aoc2024/util"
 )
@@ -40,9 +40,9 @@ func isValid(report []int) bool {
 	return true
 }
 
-func solve1(reports [][]int) {
+func solve1(reports [][]int) string {
 	if len(reports) == 0 {
-		log.Fatal("Error: No reports to process")
+		util.Fatal("Error: No reports to process")
 	}
 
 	result := 0
@@ -52,7 +52,7 @@ func solve1(reports [][]int) {
 		}
 	}
 
-	fmt.Println(result)
+	return fmt.Sprintf("%d", result)
 }
 
 func isValidWithOneRemoved(report []int) bool {
@@ -71,9 +71,9 @@ func isValidWithOneRemoved(report []int) bool {
 	return false
 }
 
-func solve2(reports [][]int) {
+func solve2(reports [][]int) string {
 	if len(reports) == 0 {
-		log.Fatal("Error: No reports to process")
+		util.Fatal("Error: No reports to process")
 	}
 
 	result := 0
@@ -83,7 +83,7 @@ func solve2(reports [][]int) {
 		}
 	}
 
-	fmt.Println(result)
+	return fmt.Sprintf("%d", result)
 }
 
 func Run(day int, input []string) {
@@ -91,23 +91,27 @@ func Run(day int, input []string) {
 
 	for i, line := range input {
 		if line == "" {
-			log.Fatalf("Invalid format on line %d: empty line", i)
+			util.Fatal("Invalid format on line %d: empty line", i)
 		}
 
 		fields := strings.Fields(line)
 		intFields, err := util.ConvertToIntSlice(fields)
 		if err != nil {
-			log.Fatalf("Error converting '%s' to integer on line %d: %v", line, i, err)
+			util.Fatal("Error converting '%s' to integer on line %d: %v", line, i, err)
 		}
 
 		reports = append(reports, intFields)
 	}
 
-	fmt.Println("Question 1 output:")
-	solve1(reports)
+	startTime := time.Now()
+	util.Output(1, solve1(reports))
+	elapsed := time.Since(startTime)
+	util.TimeTaken(elapsed)
 
-	fmt.Println("--------------------------------")
+	util.Separator()
 
-	fmt.Println("Question 2 output:")
-	solve2(reports)
+	startTime = time.Now()
+	util.Output(2, solve2(reports))
+	elapsed = time.Since(startTime)
+	util.TimeTaken(elapsed)
 }

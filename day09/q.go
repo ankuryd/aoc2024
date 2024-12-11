@@ -2,7 +2,9 @@ package day09
 
 import (
 	"fmt"
-	"log"
+	"time"
+
+	"aoc2024/util"
 )
 
 type Node struct {
@@ -18,7 +20,7 @@ const (
 	invalidID = -1
 )
 
-func solve1(input string) {
+func solve1(input string) string {
 	buffer := make([]int, 0, len(input))
 	nextID := 0
 	for i, char := range input {
@@ -55,10 +57,10 @@ func solve1(input string) {
 		}
 	}
 
-	fmt.Println(result)
+	return fmt.Sprintf("%d", result)
 }
 
-func solve2(input string) {
+func solve2(input string) string {
 	head := NewNode()
 	tail := head
 	nextID := 0
@@ -140,21 +142,25 @@ func solve2(input string) {
 		current = current.next
 	}
 
-	fmt.Println(result)
+	return fmt.Sprintf("%d", result)
 }
 
 func Run(day int, input []string) {
 	for i, line := range input {
 		if line == "" {
-			log.Fatalf("Invalid format on line %d: empty line", i)
+			util.Fatal("Invalid format on line %d: empty line", i)
 		}
 	}
 
-	fmt.Println("Question 1 output:")
-	solve1(input[0])
+	startTime := time.Now()
+	util.Output(1, solve1(input[0]))
+	elapsed := time.Since(startTime)
+	util.TimeTaken(elapsed)
 
-	fmt.Println("--------------------------------")
+	util.Separator()
 
-	fmt.Println("Question 2 output:")
-	solve2(input[0])
+	startTime = time.Now()
+	util.Output(2, solve2(input[0]))
+	elapsed = time.Since(startTime)
+	util.TimeTaken(elapsed)
 }

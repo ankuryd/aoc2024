@@ -2,7 +2,9 @@ package day10
 
 import (
 	"fmt"
-	"log"
+	"time"
+
+	"aoc2024/util"
 )
 
 type Pos struct {
@@ -70,7 +72,7 @@ func walk(grid [][]int, pos Pos, repeat bool) int {
 	return count
 }
 
-func solve1(grid [][]int) {
+func solve1(grid [][]int) string {
 	result := 0
 	for i := 0; i < rows; i++ {
 		for j := 0; j < cols; j++ {
@@ -81,10 +83,10 @@ func solve1(grid [][]int) {
 		}
 	}
 
-	fmt.Println(result)
+	return fmt.Sprintf("%d", result)
 }
 
-func solve2(grid [][]int) {
+func solve2(grid [][]int) string {
 	result := 0
 	for i := 0; i < rows; i++ {
 		for j := 0; j < cols; j++ {
@@ -95,7 +97,7 @@ func solve2(grid [][]int) {
 		}
 	}
 
-	fmt.Println(result)
+	return fmt.Sprintf("%d", result)
 }
 
 func Run(day int, input []string) {
@@ -106,7 +108,7 @@ func Run(day int, input []string) {
 
 	for i, line := range input {
 		if line == "" {
-			log.Fatalf("Invalid format on line %d: empty line", i)
+			util.Fatal("Invalid format on line %d: empty line", i)
 		}
 
 		grid[i] = make([]int, len(line))
@@ -115,11 +117,15 @@ func Run(day int, input []string) {
 		}
 	}
 
-	fmt.Println("Question 1 output:")
-	solve1(grid)
+	startTime := time.Now()
+	util.Output(1, solve1(grid))
+	elapsed := time.Since(startTime)
+	util.TimeTaken(elapsed)
 
-	fmt.Println("--------------------------------")
+	util.Separator()
 
-	fmt.Println("Question 2 output:")
-	solve2(grid)
+	startTime = time.Now()
+	util.Output(2, solve2(grid))
+	elapsed = time.Since(startTime)
+	util.TimeTaken(elapsed)
 }
