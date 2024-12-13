@@ -98,3 +98,12 @@ func ConvertToIntSlice(input []string) ([]int, error) {
 
 	return result, nil
 }
+
+func ConvertToInt(input string) int {
+	num, err := strconv.Atoi(input)
+	if err != nil {
+		Fatal("Error converting to int: %v", err)
+	}
+
+	return num
+}

@@ -23,7 +23,7 @@ const (
 	Concat
 )
 
-func (t Test) isValid(validOps []Op, index int, result int) bool {
+func (t *Test) isValid(validOps []Op, index int, result int) bool {
 	if result > t.output {
 		return false
 	}
@@ -58,7 +58,7 @@ func (t Test) isValid(validOps []Op, index int, result int) bool {
 	return false
 }
 
-func solve1(tests []Test) string {
+func solve1(tests []*Test) string {
 	result := 0
 
 	for _, test := range tests {
@@ -70,7 +70,7 @@ func solve1(tests []Test) string {
 	return fmt.Sprintf("%d", result)
 }
 
-func solve2(tests []Test) string {
+func solve2(tests []*Test) string {
 	result := 0
 
 	for _, test := range tests {
@@ -83,7 +83,7 @@ func solve2(tests []Test) string {
 }
 
 func Run(day int, input []string) {
-	tests := make([]Test, 0)
+	tests := make([]*Test, 0)
 
 	for i, line := range input {
 		if line == "" {
@@ -106,7 +106,7 @@ func Run(day int, input []string) {
 			util.Fatal("Invalid format on line %d: expected ints, got %v", i, err)
 		}
 
-		tests = append(tests, Test{output, intInputs})
+		tests = append(tests, &Test{output: output, inputs: intInputs})
 	}
 
 	startTime := time.Now()

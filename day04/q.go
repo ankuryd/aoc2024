@@ -11,11 +11,11 @@ type Pos struct {
 	x, y int
 }
 
-func (p Pos) InBounds() bool {
+func (p *Pos) InBounds() bool {
 	return p.x >= 0 && p.x < rows && p.y >= 0 && p.y < cols
 }
 
-func (p Pos) Move(dir Dir, steps int) Pos {
+func (p *Pos) Move(dir Dir, steps int) Pos {
 	return Pos{x: p.x + dir.dx*steps, y: p.y + dir.dy*steps}
 }
 
@@ -33,15 +33,15 @@ const (
 var (
 	rows, cols int
 
-	north = Dir{0, -1}
-	east  = Dir{1, 0}
-	south = Dir{0, 1}
-	west  = Dir{-1, 0}
+	north = Dir{dx: -1, dy: 0}
+	east  = Dir{dx: 0, dy: 1}
+	south = Dir{dx: 1, dy: 0}
+	west  = Dir{dx: 0, dy: -1}
 
-	northEast = Dir{1, -1}
-	southEast = Dir{1, 1}
-	southWest = Dir{-1, 1}
-	northWest = Dir{-1, -1}
+	northEast = Dir{dx: -1, dy: 1}
+	southEast = Dir{dx: 1, dy: 1}
+	southWest = Dir{dx: 1, dy: -1}
+	northWest = Dir{dx: -1, dy: -1}
 
 	allDirs = []Dir{north, east, south, west, northEast, southEast, southWest, northWest}
 

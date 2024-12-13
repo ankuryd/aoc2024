@@ -25,16 +25,16 @@ func solve1(input string) string {
 	nextID := 0
 	for i, char := range input {
 		repeatCount := int(char - '0')
-		var currentID int
+		var currID int
 		if (i & 1) == 0 {
-			currentID = nextID
+			currID = nextID
 			nextID++
 		} else {
-			currentID = invalidID
+			currID = invalidID
 		}
 
 		for j := 0; j < repeatCount; j++ {
-			buffer = append(buffer, currentID)
+			buffer = append(buffer, currID)
 		}
 	}
 
@@ -67,19 +67,15 @@ func solve2(input string) string {
 
 	for index, char := range input {
 		repeatCount := int(char - '0')
-		var currentID int
+		var currID int
 		if (index & 1) == 0 {
-			currentID = nextID
+			currID = nextID
 			nextID++
 		} else {
-			currentID = invalidID
+			currID = invalidID
 		}
 
-		newNode := &Node{
-			id:    currentID,
-			count: repeatCount,
-			prev:  tail,
-		}
+		newNode := &Node{id: currID, count: repeatCount, prev: tail}
 		tail.next = newNode
 		tail = newNode
 	}
@@ -101,12 +97,7 @@ func solve2(input string) string {
 			if left.count >= right.count {
 				excessCount := left.count - right.count
 				if excessCount > 0 {
-					excessNode := &Node{
-						id:    invalidID,
-						count: excessCount,
-						prev:  left,
-						next:  left.next,
-					}
+					excessNode := &Node{id: invalidID, count: excessCount, prev: left, next: left.next}
 					left.next.prev = excessNode
 					left.next = excessNode
 					left.count = right.count
@@ -125,21 +116,21 @@ func solve2(input string) string {
 
 	result := 0
 	position := 0
-	current := head.next
-	for current != nil {
-		if current.count == 0 {
-			current = current.next
+	curr := head.next
+	for curr != nil {
+		if curr.count == 0 {
+			curr = curr.next
 			continue
 		}
 
-		for i := 0; i < current.count; i++ {
-			if current.id != invalidID {
-				result += position * current.id
+		for i := 0; i < curr.count; i++ {
+			if curr.id != invalidID {
+				result += position * curr.id
 			}
 			position++
 		}
 
-		current = current.next
+		curr = curr.next
 	}
 
 	return fmt.Sprintf("%d", result)
