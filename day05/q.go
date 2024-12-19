@@ -60,14 +60,14 @@ func Run(day int, input []string) {
 	orders := make(map[int]map[int]struct{})
 	updates := make([][]int, 0)
 
-	isOrder := true
+	readOrders := true
 	for i, line := range input {
 		if line == "" {
-			isOrder = false
+			readOrders = false
 			continue
 		}
 
-		if isOrder {
+		if readOrders {
 			parts := strings.Split(line, "|")
 			if len(parts) != 2 {
 				util.Fatal("Invalid format on line %d: %s", i, line)
