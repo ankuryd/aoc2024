@@ -75,7 +75,7 @@ func solve2(machines []*Machine) string {
 func Run(day int, input []string) {
 	machines := make([]*Machine, 0)
 
-	var buttonA, buttonB, prize Pos
+	buttonA, buttonB, prize := Pos{}, Pos{}, Pos{}
 	for i, line := range input {
 		if line == "" {
 			machine := &Machine{ButtonA: buttonA, ButtonB: buttonB, Prize: prize}
@@ -108,7 +108,6 @@ func Run(day int, input []string) {
 		}
 	}
 
-	// Add the last machine
 	machine := &Machine{ButtonA: buttonA, ButtonB: buttonB, Prize: prize}
 	machines = append(machines, machine)
 

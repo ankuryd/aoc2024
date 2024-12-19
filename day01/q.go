@@ -36,7 +36,7 @@ func solve2(list1, list2 []int) string {
 		counter[num]++
 	}
 
-	var result int
+	result := 0
 	for _, num := range list1 {
 		if count, ok := counter[num]; ok {
 			result += num * count
@@ -47,7 +47,7 @@ func solve2(list1, list2 []int) string {
 }
 
 func Run(day int, input []string) {
-	var list1, list2 []int
+	list1, list2 := make([]int, 0), make([]int, 0)
 
 	for i, line := range input {
 		if line == "" {

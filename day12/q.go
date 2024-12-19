@@ -158,7 +158,7 @@ var (
 	lookup = make(map[Pos]*Cell)
 )
 
-func walk(cell *Cell, grid [][]*Cell) *Component {
+func walk(cell *Cell) *Component {
 	queue := make([]*Cell, 0)
 	queue = append(queue, cell)
 
@@ -202,7 +202,7 @@ func solve1(grid [][]*Cell) string {
 				continue
 			}
 
-			component := walk(cell, grid)
+			component := walk(cell)
 			components = append(components, component)
 		}
 	}
@@ -231,7 +231,7 @@ func solve2(grid [][]*Cell) string {
 				continue
 			}
 
-			component := walk(cell, grid)
+			component := walk(cell)
 			components = append(components, component)
 		}
 	}

@@ -34,7 +34,7 @@ var (
 
 func solve1(antennas map[rune][]*Pos) string {
 	antiNodes := make(map[Pos]struct{})
-	var antiNode Pos
+	antiNode := Pos{}
 	for _, positions := range antennas {
 		for i := 0; i < len(positions); i++ {
 			for j := i + 1; j < len(positions); j++ {
@@ -58,7 +58,7 @@ func solve1(antennas map[rune][]*Pos) string {
 
 func solve2(antennas map[rune][]*Pos) string {
 	antiNodes := make(map[Pos]struct{})
-	var antiNode Pos
+	antiNode := Pos{}
 	for _, positions := range antennas {
 		for i := 0; i < len(positions); i++ {
 			for j := i + 1; j < len(positions); j++ {

@@ -25,12 +25,10 @@ func solve1(input string) string {
 	nextID := 0
 	for i, char := range input {
 		repeatCount := int(char - '0')
-		var currID int
+		currID := invalidID
 		if (i & 1) == 0 {
 			currID = nextID
 			nextID++
-		} else {
-			currID = invalidID
 		}
 
 		for j := 0; j < repeatCount; j++ {
@@ -67,12 +65,10 @@ func solve2(input string) string {
 
 	for index, char := range input {
 		repeatCount := int(char - '0')
-		var currID int
+		currID := invalidID
 		if (index & 1) == 0 {
 			currID = nextID
 			nextID++
-		} else {
-			currID = invalidID
 		}
 
 		newNode := &Node{id: currID, count: repeatCount, prev: tail}
