@@ -99,6 +99,7 @@ func ConvertToIntSlice(input []string) ([]int, error) {
 	return result, nil
 }
 
+// ConvertToInt converts a string to an integer
 func ConvertToInt(input string) int {
 	num, err := strconv.Atoi(input)
 	if err != nil {
@@ -106,4 +107,15 @@ func ConvertToInt(input string) int {
 	}
 
 	return num
+}
+
+// Contains checks if a slice contains an item
+func Contains[T comparable](slice []T, item T) bool {
+	for _, v := range slice {
+		if v == item {
+			return true
+		}
+	}
+
+	return false
 }
