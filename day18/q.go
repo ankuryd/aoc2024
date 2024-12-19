@@ -177,7 +177,7 @@ func Run(day int, input []string) {
 		}
 
 		parts := strings.Split(line, ",")
-		intParts, err := util.ConvertToIntSlice(parts)
+		intParts, err := util.ConvertToInts(parts)
 		if err != nil {
 			util.Fatal("Invalid format on line %d: %s", i, err)
 		}

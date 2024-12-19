@@ -95,7 +95,7 @@ func Run(day int, input []string) {
 		}
 
 		fields := strings.Fields(line)
-		intFields, err := util.ConvertToIntSlice(fields)
+		intFields, err := util.ConvertToInts(fields)
 		if err != nil {
 			util.Fatal("Error converting '%s' to integer on line %d: %v", line, i, err)
 		}

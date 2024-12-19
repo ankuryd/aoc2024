@@ -73,7 +73,7 @@ func Run(day int, input []string) {
 				util.Fatal("Invalid format on line %d: %s", i, line)
 			}
 
-			intParts, err := util.ConvertToIntSlice(parts)
+			intParts, err := util.ConvertToInts(parts)
 			if err != nil {
 				util.Fatal("Error converting '%s' to integer on line %d: %v", line, i, err)
 			}
@@ -86,7 +86,7 @@ func Run(day int, input []string) {
 			orders[u][v] = struct{}{}
 		} else {
 			parts := strings.Split(line, ",")
-			intParts, err := util.ConvertToIntSlice(parts)
+			intParts, err := util.ConvertToInts(parts)
 			if err != nil {
 				util.Fatal("Error converting '%s' to integer on line %d: %v", line, i, err)
 			}

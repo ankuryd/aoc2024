@@ -84,8 +84,8 @@ func DownloadInput(day int) {
 	}
 }
 
-// ConvertToIntSlice converts a slice of strings to a slice of integers
-func ConvertToIntSlice(input []string) ([]int, error) {
+// ConvertToInts converts a slice of strings to a slice of integers
+func ConvertToInts(input []string) ([]int, error) {
 	result := make([]int, len(input))
 	for i, v := range input {
 		num, err := strconv.Atoi(v)

@@ -72,7 +72,7 @@ func Run(day int, input []string) {
 	}
 
 	fields := strings.Fields(input[0])
-	stones, err := util.ConvertToIntSlice(fields)
+	stones, err := util.ConvertToInts(fields)
 	if err != nil {
 		util.Fatal("Invalid format on line %d: %s, expected ints, got %v", 0, fields, err)
 	}

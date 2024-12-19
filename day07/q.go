@@ -101,7 +101,7 @@ func Run(day int, input []string) {
 		}
 
 		inputs := strings.Fields(strings.TrimSpace(parts[1]))
-		intInputs, err := util.ConvertToIntSlice(inputs)
+		intInputs, err := util.ConvertToInts(inputs)
 		if err != nil {
 			util.Fatal("Invalid format on line %d: expected ints, got %v", i, err)
 		}
