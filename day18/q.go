@@ -25,7 +25,7 @@ type State struct {
 	steps int
 }
 
-func (p *Pos) Add(d Dir) Pos {
+func (p *Pos) Move(d Dir) Pos {
 	return Pos{x: p.x + d.dx, y: p.y + d.dy}
 }
 
@@ -67,14 +67,15 @@ func solve1(bytes []Pos) string {
 	grid.CreateWalls(bytes, k)
 
 	visited := map[Pos]struct{}{grid.start: {}}
-	queue := []State{{Pos: grid.start, steps: 1}}
+	queue := make([]State, 0, 1e6)
+	queue = append(queue, State{Pos: grid.start, steps: 1})
 
 	result := 0
 	for index := 0; index < len(queue); index++ {
 		curr := queue[index]
 
 		for _, dir := range dirs {
-			next := curr.Add(dir)
+			next := curr.Move(dir)
 
 			if !next.InBounds() {
 				continue
@@ -104,13 +105,14 @@ func solve1(bytes []Pos) string {
 
 func (g *Grid) FindPath() []Pos {
 	visited := map[Pos]struct{}{g.start: {}}
-	queue := [][]Pos{{g.start}}
+	queue := make([][]Pos, 0, 1e6)
+	queue = append(queue, []Pos{g.start})
 
 	for index := 0; index < len(queue); index++ {
 		curr := queue[index]
 
 		for _, dir := range dirs {
-			next := curr[len(curr)-1].Add(dir)
+			next := curr[len(curr)-1].Move(dir)
 
 			if !next.InBounds() {
 				continue

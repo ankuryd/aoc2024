@@ -31,14 +31,15 @@ var (
 	south = Dir{dx: 1, dy: 0}
 	west  = Dir{dx: 0, dy: -1}
 
-	allDirs = []Dir{north, east, south, west}
+	dirs = []Dir{north, east, south, west}
 )
 
 func walk(grid [][]int, pos Pos, repeat bool) int {
 	count := 0
 
 	visited := map[Pos]struct{}{pos: {}}
-	queue := []Pos{pos}
+	queue := make([]Pos, 0, 1e6)
+	queue = append(queue, pos)
 
 	head := 0
 	for head < len(queue) {
@@ -50,7 +51,7 @@ func walk(grid [][]int, pos Pos, repeat bool) int {
 			continue
 		}
 
-		for _, dir := range allDirs {
+		for _, dir := range dirs {
 			nextPos := curr.Move(dir)
 			if !nextPos.InBounds() {
 				continue

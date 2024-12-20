@@ -16,15 +16,15 @@ type Dir struct {
 	dx, dy int
 }
 
-func (p Pos) Move(d Dir) Pos {
+func (p *Pos) Move(d Dir) Pos {
 	return Pos{x: p.x + d.dx, y: p.y + d.dy}
 }
 
-func (d Dir) RotateCW() Dir {
+func (d *Dir) RotateCW() Dir {
 	return Dir{dx: d.dy, dy: -d.dx}
 }
 
-func (d Dir) RotateCCW() Dir {
+func (d *Dir) RotateCCW() Dir {
 	return Dir{dx: -d.dy, dy: d.dx}
 }
 
@@ -54,7 +54,8 @@ var (
 
 func solve1(grid *Grid, startDir Dir) string {
 	distance := map[State]int{{Pos: grid.start, Dir: startDir}: 0}
-	queue := []State{{Pos: grid.start, Dir: startDir}}
+	queue := make([]State, 0, 1e6)
+	queue = append(queue, State{Pos: grid.start, Dir: startDir})
 
 	for index := 0; index < len(queue); index++ {
 		curr := queue[index]
@@ -98,7 +99,8 @@ func solve1(grid *Grid, startDir Dir) string {
 
 func solve2(grid *Grid, startDir Dir) string {
 	distance := map[State]int{{Pos: grid.start, Dir: startDir}: 0}
-	queue := []State{{Pos: grid.start, Dir: startDir}}
+	queue := make([]State, 0, 1e6)
+	queue = append(queue, State{Pos: grid.start, Dir: startDir})
 
 	parents := make(map[State][]State)
 	paths := make(map[int][]State)

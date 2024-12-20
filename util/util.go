@@ -8,6 +8,8 @@ import (
 	"os"
 	"strconv"
 	"strings"
+
+	"golang.org/x/exp/constraints"
 )
 
 // ProcessInput validates the input for the given day and returns the input as a slice of strings
@@ -118,4 +120,17 @@ func Contains[T comparable](slice []T, item T) bool {
 	}
 
 	return false
+}
+
+type Number interface {
+	constraints.Integer | constraints.Float
+}
+
+// Abs returns the absolute value of a number
+func Abs[T Number](a T) T {
+	if a < 0 {
+		return -a
+	}
+
+	return a
 }

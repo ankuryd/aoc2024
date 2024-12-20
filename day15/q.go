@@ -15,7 +15,7 @@ type Dir struct {
 	dx, dy int
 }
 
-func (p Pos) Move(d Dir) Pos {
+func (p *Pos) Move(d Dir) Pos {
 	return Pos{x: p.x + d.dx, y: p.y + d.dy}
 }
 
