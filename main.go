@@ -1,8 +1,7 @@
 package main
 
 import (
-	"os"
-	"strconv"
+	"fmt"
 
 	"aoc2024/day01"
 	"aoc2024/day02"
@@ -33,6 +32,7 @@ import (
 	"aoc2024/util"
 
 	"github.com/joho/godotenv"
+	"github.com/spf13/pflag"
 )
 
 var (
@@ -83,55 +83,49 @@ func main() {
 		util.Fatal("Error loading .env file: %v", err)
 	}
 
-	args := os.Args[1:]
-	if len(args) == 0 {
+	dayPtr := pflag.IntP("day", "d", 0, "Specify the day to run (1-25)")
+	runAllPtr := pflag.BoolP("all", "a", false, "Run all days")
+	testPtr := pflag.BoolP("test", "t", false, "Run the test input for the given day")
+	helpPtr := pflag.BoolP("help", "h", false, "Display help information")
+
+	pflag.Parse()
+
+	if *helpPtr {
+		printUsage()
+		return
+	}
+
+	if *runAllPtr && *dayPtr != 0 {
+		util.Fatal("Error: -a/--all and -d/--day cannot be used together.")
+	}
+
+	if !*runAllPtr && *dayPtr == 0 {
 		util.Fatal("Error: No arguments provided. Use -h or --help for more information.")
 	}
 
-	day := 0
-	isTest := false
-	runAll := false
-
-	for i := 0; i < len(args); i++ {
-		switch args[i] {
-		case "-h", "--help":
-			util.Print(`
-Usage: go run main.go [options]
-
-Options:
-  -d <day>    Specify the day to run (1-25)
-  -a          Run all days
-  -t          Run the test input for the given day
-			`)
-			return
-		case "-d":
-			if i+1 >= len(args) {
-				util.Fatal("Error: -d flag requires a day number.")
-			}
-
-			day, err = strconv.Atoi(args[i+1])
-			if err != nil {
-				util.Fatal("Error: Invalid day '%s': %v", args[i+1], err)
-			}
-			i++
-
-			if day < 1 || day > 25 {
-				util.Fatal("Error: Day '%d' is out of range (1-25).", day)
-			}
-		case "-t":
-			isTest = true
-		case "-a":
-			runAll = true
-		default:
-			util.Fatal("Error: Invalid argument '%s'. Use -h or --help for more information.", args[i])
+	if *dayPtr != 0 {
+		if *dayPtr < 1 || *dayPtr > 25 {
+			util.Fatal("Error: Day '%d' is out of range (1-25).", *dayPtr)
 		}
 	}
 
-	if runAll {
+	if *runAllPtr {
 		for day := 1; day <= 25; day++ {
-			run(day, isTest)
+			run(day, *testPtr)
 		}
 	} else {
-		run(day, isTest)
+		run(*dayPtr, *testPtr)
 	}
+}
+
+func printUsage() {
+	usage := `Usage: go run main.go [options]
+
+Options:
+  -d, --day <day>    Specify the day to run (1-25)
+  -a, --all          Run all days
+  -t, --test         Run the test input for the given day
+  -h, --help         Display help information
+`
+	fmt.Print(usage)
 }
