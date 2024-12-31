@@ -1,13 +1,10 @@
 package day17
 
 import (
-	"context"
 	"fmt"
 	"math"
-	"runtime"
 	"strconv"
 	"strings"
-	"sync"
 	"time"
 
 	"aoc2024/util"
@@ -134,11 +131,13 @@ func (c *Computer) Reset() {
 	c.queue = make([]byte, 0)
 }
 
-func (c *Computer) IsQuine() bool {
+func (c *Computer) IsQuine(i int) bool {
 	input := ""
 	for _, instruction := range c.instructions {
 		input += fmt.Sprintf("%d,%d,", instruction.opcode, instruction.operand)
 	}
+
+	input = input[2*i:]
 
 	c.Reset()
 	c.Run()
@@ -165,61 +164,20 @@ func solve1(computer *Computer) string {
 }
 
 func solve2(computer *Computer) string {
-	const max = 1e9
-	numCPU := runtime.NumCPU()
-	runtime.GOMAXPROCS(numCPU)
-
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-
-	resultCh := make(chan int, 1)
-	var wg sync.WaitGroup
-
-	chunkSize := int(max) / numCPU
-
-	for p := 0; p < numCPU; p++ {
-		start := p * chunkSize
-		end := start + chunkSize
-		if p == numCPU-1 {
-			end = int(max)
-		}
-
-		wg.Add(1)
-		go func(start, end int) {
-			defer wg.Done()
-
-			localComputer := computer.Copy()
-
-			for i := start; i < end; i++ {
-				select {
-				case <-ctx.Done():
-					return
-				default:
-				}
-
-				localComputer.registers['A'] = i
-				if localComputer.IsQuine() {
-					select {
-					case resultCh <- i:
-						cancel()
-					default:
-					}
-					return
-				}
+	result := 0
+	for i := 2*len(computer.instructions) - 1; i >= 0; i-- {
+		result <<= 3
+		for {
+			computer.registers['A'] = result
+			if computer.IsQuine(i) {
+				break
 			}
-		}(start, end)
+
+			result++
+		}
 	}
 
-	go func() {
-		wg.Wait()
-		close(resultCh)
-	}()
-
-	if res, ok := <-resultCh; ok {
-		return fmt.Sprintf("%d", res)
-	}
-
-	return fmt.Sprintf("%d", 0)
+	return fmt.Sprintf("%d", result)
 }
 
 func Run(day int, input []string) {
