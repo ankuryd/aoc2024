@@ -8,6 +8,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"unicode/utf8"
 
 	"golang.org/x/exp/constraints"
 )
@@ -133,4 +134,16 @@ func Abs[T Number](a T) T {
 	}
 
 	return a
+}
+
+// ReverseString reverses a string
+func ReverseString(s string) string {
+	size := len(s)
+	buf := make([]byte, size)
+	for start := 0; start < size; {
+		r, n := utf8.DecodeRuneInString(s[start:])
+		start += n
+		utf8.EncodeRune(buf[size-start:], r)
+	}
+	return string(buf)
 }
