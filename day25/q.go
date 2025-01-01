@@ -32,6 +32,7 @@ func solve1(locks, keys [][]int) string {
 }
 
 func solve2(locks, keys [][]int) string {
+	fmt.Println("There is no part 2 for this problem! TADAAAA!!!")
 	return fmt.Sprintf("%d", 0)
 }
 
