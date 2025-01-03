@@ -70,11 +70,11 @@ func solve1(grid *Grid) string {
 		}
 	}
 
-	relPos := []Pos{}
+	relPos := make([]Pos, 0)
 	for dx := -2; dx <= 2; dx++ {
 		for dy := -2; dy <= 2; dy++ {
 			if util.Abs(dx)+util.Abs(dy) <= 2 && !(dx == 0 && dy == 0) {
-				relPos = append(relPos, Pos{dx, dy})
+				relPos = append(relPos, Pos{x: dx, y: dy})
 			}
 		}
 	}
@@ -133,11 +133,11 @@ func solve2(grid *Grid) string {
 		}
 	}
 
-	relPos := []Pos{}
+	relPos := make([]Pos, 0)
 	for dx := -20; dx <= 20; dx++ {
 		for dy := -20; dy <= 20; dy++ {
 			if util.Abs(dx)+util.Abs(dy) <= 20 && !(dx == 0 && dy == 0) {
-				relPos = append(relPos, Pos{dx, dy})
+				relPos = append(relPos, Pos{x: dx, y: dy})
 			}
 		}
 	}
